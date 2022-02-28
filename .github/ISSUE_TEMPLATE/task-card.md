@@ -1,7 +1,7 @@
 ---
 name: Task Card
 about: 각 Milestone의 하위 태스크를 생성하여 진행상황을 트래킹하기 위한 템플릿
-title: Milstone 달성을 위한 세부 Task Card 작성
+title: "[BE/FE/Task] /* To-Do의 항목 */"
 labels: ''
 assignees: ''
 
@@ -9,6 +9,7 @@ assignees: ''
 
 ### ISSUE
 - Group:  `client`, `server`, `sr`
+- Priority: `Bare-Minimun`, `Advanced`, `Nightmare`
 - Type: `bug`, `feature`, `delete`
 - Detail: fix actions from client redux
 
@@ -28,6 +29,6 @@ assignees: ''
 
 ### Labels
 - Estimated time: `E: 1h`
-- Group : `client`, `server`
+- Group : `Front-End`, `Back-End`
 - Sprint: `Sprint__NUMBER__`
 - Urgency: `High`, `Middle`, `Low`
