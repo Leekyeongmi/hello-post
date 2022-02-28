@@ -1,6 +1,6 @@
 ---
 name: Error Handle
-about: Suggest an idea for this project
+about: 프로젝트에서 만난 에러를 어떻게 해결했는지 기록
 title: 프로젝트에서 만난 에러를 어떻게 해결했는지 기록
 labels: ''
 assignees: ''
