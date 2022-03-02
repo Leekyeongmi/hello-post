@@ -1,9 +1,16 @@
+import axios from 'axios';
+import React, { useEffect } from 'react';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">hi?</header>
-    </div>
-  );
+  useEffect(() => {
+    axiosTest();
+  });
+  const axiosTest = () => {
+    axios
+      .get('')
+      .then(res => console.log(res.data).catch(err => console.log(err)));
+  };
+  return <p>hi</p>;
 }
 
 export default App;
