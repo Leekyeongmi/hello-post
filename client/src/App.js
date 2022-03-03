@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Rollingpaper from './pages/Rollingpaper';
 import Signup from './pages/Signup';
 import axios from 'axios';
+import './app.css';
 
 function App() {
   // 서버연결 확인코드
