@@ -1,13 +1,16 @@
 const express = require('express');
 const logger = require('morgan');
+const cors = require('cors');
 const app = express();
 
 app.set('port', 5500);
 
 app.use(logger('dev'));
+app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World from Server!');
 });
 
 app.use((err, req, res, next) => {
