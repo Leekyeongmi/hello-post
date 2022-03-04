@@ -13,16 +13,6 @@ import axios from 'axios';
 import './app.css';
 
 function App() {
-  // 서버연결 확인코드
-  useEffect(() => {
-    axiosTest();
-  });
-  const axiosTest = () => {
-    axios
-      .get('http://localhost:5500')
-      .then(res => console.log(res.data).catch(err => console.log(err)));
-  };
-
   const [isLogin, setIsLogin] = useState(false);
   const [userinfo, setUserinfo] = useState(null);
   const history = useHistory();
