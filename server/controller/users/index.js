@@ -3,5 +3,5 @@ module.exports = {
   signin: require('./signin'),
   signout: require('./signout'),
   signup: require('./signup'),
-  uid: require('./:uid'),
+  uid: require('./uid'),
 };

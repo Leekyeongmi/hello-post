@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const indexRouter = require('./router');
 const app = express();
 
 app.set('port', 5500);
@@ -8,6 +9,7 @@ app.set('port', 5500);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
+app.use('/', indexRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World from Server!');
