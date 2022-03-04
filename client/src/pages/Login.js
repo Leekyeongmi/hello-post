@@ -56,7 +56,7 @@ export default function Login({ isLogin, handleResponseSuccess }) {
             동글동글~글자 테스트~
           </p>
           <button
-            className="block bg-gray-800 hover:bg-gray-900 py-3 px-4 rounded-lg text-lg text-white font-bold uppercase mt-10"
+            className="block bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-3 px-4 rounded-lg text-lg text-white font-bold uppercase mt-10"
             onClick={() => setShowModal(true)}
           >
             SIGN IN
@@ -68,7 +68,7 @@ export default function Login({ isLogin, handleResponseSuccess }) {
               setShowModal={setShowModal}
             ></Signin>
           ) : null}
-          <div className="text-lg uppercase text-gray cursor-pointer hover:text-gray-300 mt-5">
+          <div className="text-lg uppercase text-gray cursor-pointer hover:underline mt-5">
             <Link to="/signup">아직 아이디가 없으신가요?</Link>
           </div>
         </div>

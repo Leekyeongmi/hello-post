@@ -79,7 +79,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
             {/* footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
-                className="block bg-gray-800 hover:bg-gray-900 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
+                className="block bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
                 type="button"
                 onClick={() => handleLogin}
               >
