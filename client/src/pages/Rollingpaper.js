@@ -18,7 +18,6 @@ const Rollingpaper = () => {
         {tt.map(a => {
           return <List list={a} key={a.id} />;
         })}
-        {/* <List /> */}
       </ul>
     </React.Fragment>
   );
