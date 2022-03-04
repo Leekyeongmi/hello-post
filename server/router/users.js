@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { usersController } = require('../controller');
+const { usersController } = require('../controller/users.js');
 
 // 회원가입
 router.post('/signup', usersController.signup);
