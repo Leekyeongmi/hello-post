@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Signup() {
+  const history = useHistory();
   const [userinfo, setuserinfo] = useState({
     email: '',
     password: '',
@@ -15,7 +17,7 @@ export default function Signup() {
         <div className="flex justify-center pt-12 md:justify-start md:pl-12 md:-mb-24"></div>
         <div className="flex flex-col px-8 pt-8 my-auto md:justify-start md:pt-0 md:px-24 lg:px-32">
           <h1 className="font-bold text-center text-6xl sm:text-3xl text-gray leading-tight mt-4">
-            SIGN UP
+            Sign Up
             <br />
           </h1>
           <div className="relative p-6 flex-auto">
@@ -81,7 +83,10 @@ export default function Signup() {
         </div>
       </div>
       <div className="w-1/2 h-screen shadow-lg">
-        <img className="object-full h-screen md:block" src="/img/jumping.svg" />
+        <img
+          className="object-cover h-screen md:block opacity-90"
+          src="/img/jumping.svg"
+        />
       </div>
     </div>
   );

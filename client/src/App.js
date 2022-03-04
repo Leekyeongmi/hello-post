@@ -48,7 +48,7 @@ function App() {
             <Rollingpaper userinfo={userinfo} />
           </Route>
           <Route path="/">
-            {isLogin ? <Redirect to="/posts" /> : <Redirect to="/login" />}
+            {isLogin ? <Redirect to="/posts" /> : <Redirect to="/posts" />}
           </Route>
         </Switch>
       </BrowserRouter>

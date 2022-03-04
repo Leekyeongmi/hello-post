@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Signin({ handleResponseSuccess, setShowModal }) {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
+  });
+
+  const [errMessage, setErrMessage] = useState('');
+
+  useEffect(() => {
+    const { email, password } = loginInfo;
+    if (!email || !password) {
+      setErrMessage('아이디와 비밀번호를 모두 입력해주세요.');
+    }
   });
 
   const handleInputValue = key => e => {
@@ -35,7 +44,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/* header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-2xl font-semibold">SIGN IN</h3>
+              <h3 className="text-2xl font-semibold">Sign In</h3>
               <button
                 className="p-1 ml-5 bg-transparent text-gray float-right text-3xl leading-none  focus:outline-none"
                 onClick={() => setShowModal(false)}
@@ -61,7 +70,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
                   onChange={() => handleInputValue('email')}
                 />
               </div>
-              <div className="mb-3 relative">
+              <div className="relative">
                 <label htmlFor="required-email" className="text-gray-700 mt-10">
                   Password
                   <span className="text-red-500 required-dot"> *</span>
@@ -74,12 +83,15 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
                   placeholder="password"
                   onChange={() => handleInputValue('password')}
                 />
+                <p className="text-base uppercase text-gray-900 mt-5">
+                  {errMessage}
+                </p>
               </div>
             </div>
             {/* footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
-                className="block bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
+                className="block w-full bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
                 type="button"
                 onClick={() => handleLogin}
               >
