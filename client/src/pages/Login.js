@@ -8,7 +8,7 @@ export default function Login({ isLogin, handleResponseSuccess }) {
     <div className="relative overflow-hidden h-screen">
       <img
         src="img/freetime.svg"
-        className="absolute h-full w-full object-cover"
+        className="absolute bottom-0 right-0 h-full w-full object-cover opacity-90"
       />
       <header className="absolute top-0 left-0 right-0 z-20">
         <nav className="container mx-auto px-6 md:px-12 py-4">
@@ -33,15 +33,15 @@ export default function Login({ isLogin, handleResponseSuccess }) {
                 </button>
               </div> */}
             </div>
-            <div className="hidden md:flex items-center">
+            {/* <div className="hidden md:flex items-center">
               <a className="text-lg uppercase mx-3 text-gray-800 cursor-pointer hover:text-gray-300">
                 About Us
               </a>
-            </div>
+            </div> */}
           </div>
         </nav>
       </header>
-      <div className="container mx-auto px-6 md:px-12 relative z-10 flex items-center py-32 xl:py-40">
+      <div className="container mx-auto px-6 md:pzx-12 relative z-10 flex items-center py-32 xl:py-40">
         <div className="lg:w-3/5 xl:w-2/5 flex flex-col items-start relative z-10">
           <span className="font-bold uppercase mx-1 text-amber-400">
             Hello-Post
@@ -51,9 +51,9 @@ export default function Login({ isLogin, handleResponseSuccess }) {
             <br />
           </h1>
           <p className="text-lg uppercase text-black-900 mt-5">
-            구르는 마음들~ 동글동글~
+            사랑하는 사람을 위한,
             <br />
-            동글동글~글자 테스트~
+            가나다라 마바사 글자 테스트!
           </p>
           <button
             className="block bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-3 px-4 rounded-lg text-lg text-white font-bold uppercase mt-10"
