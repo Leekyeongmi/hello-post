@@ -1,4 +1,4 @@
-const Posts = require('../model/posts');
+const Post = require('../models/post');
 // Sequelize가 제공하는 쿼리로 db의 posts 관련 데이터를 조회, 생성
 
 module.exports = {

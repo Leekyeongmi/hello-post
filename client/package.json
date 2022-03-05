@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
+    "dotenv": "^16.0.0",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.4.0",

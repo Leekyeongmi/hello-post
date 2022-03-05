@@ -1,4 +1,4 @@
-const Users = require('../models/users');
+const User = require('../models/user');
 // Sequelize가 제공하는 쿼리로 db의 users 관련 데이터를 조회, 생성
 
 module.exports = {
