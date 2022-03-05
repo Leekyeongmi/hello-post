@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Signin({ handleResponseSuccess, setShowModal }) {
+export default function Signin({
+  setUserId,
+  handleResponseSuccess,
+  setShowModal,
+}) {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -25,17 +29,31 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
 
     axios
       .post(
-        'http://localhost:5500/users/signin',
+        `${process.env.REACT_APP_API_URL}/users/signin`,
         { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            withCredentials: true,
+          },
+        }
       )
       .then(res => {
-        handleResponseSuccess();
+        setUserId(res.data.uid);
+        handleResponseSuccess(res.data.accessToken);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setLoginInfo({
+          email: '',
+          password: '',
+        });
+        // 상태코드 확인 필요
+        if (err.response.status === 401) {
+          alert('이름과 비밀번호를 정확히 입력해주세요!');
+        }
+      });
   };
-  // 서버로부터 성공 응답 : 롤링페이퍼 페이지로 유저아이디를 받아 리디렉션해준다.
-  // 서버로부터 실패 응답 : 실패 안내창을 띄워야 한다.
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
