@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { postsController } = require('../controller');
+const { postsController } = require('../controller/posts.js');
 
 // 메시지 작성, 삭제
 router
