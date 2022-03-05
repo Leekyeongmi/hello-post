@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export default function Message({ list }) {
   const parsedDate = new Date(list.createdAt).toLocaleDateString('ko-kr');
@@ -14,7 +13,3 @@ export default function Message({ list }) {
     </li>
   );
 }
-
-Message.propTypes = {
-  list: PropTypes.string.isRequired,
-};
