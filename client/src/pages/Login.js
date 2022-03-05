@@ -11,6 +11,7 @@ export default function Login({ isLogin, handleResponseSuccess }) {
           <div className="md:flex justify-between items-center">
             <div className="flex justify-between items-center"></div>
             <div className="hidden md:flex items-center">
+
               <a className="text-lg uppercase mx-3 text-gray-800 cursor-pointer hover:underline">
                 About Us
               </a>

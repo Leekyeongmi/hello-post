@@ -169,7 +169,7 @@ Content-Type: application/json;charset=UTF-8
 
 ## 메시지 삭제
 **Request**<br>
-DELETE posts/messages HTTP/1.1<br>
+DELETE posts/message HTTP/1.1<br>
 Authorization: Bearer ${ACCESS_TOKEN}<br>
 Content-Type: application/json;charset=UTF-8
 ```
