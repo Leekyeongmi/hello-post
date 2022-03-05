@@ -28,7 +28,7 @@
       {
         "ignore": "<ignore>",
         "customValidators": "<customValidator>",
-        "skipUndeclared": "<skipUndeclared> "
+        "skipUndeclared": "<skipUndeclared>"
       }
     ]
   }
