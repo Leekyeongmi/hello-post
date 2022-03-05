@@ -15,6 +15,7 @@ import './app.css';
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userinfo, setUserinfo] = useState(null);
+  // access token 상태 관리를 userinfo에 포함
   const history = useHistory();
 
   const isAuthenticated = () => {
