@@ -44,7 +44,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/* header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-2xl font-semibold">Sign In</h3>
+              <h3 className="text-2xl text-gray-800 font-semibold">Sign In</h3>
               <button
                 className="p-1 ml-5 bg-transparent text-gray float-right text-3xl leading-none  focus:outline-none"
                 onClick={() => setShowModal(false)}
@@ -64,7 +64,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
                 <input
                   type="text"
                   id="required-email"
-                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   name="email"
                   placeholder="email"
                   onChange={() => handleInputValue('email')}
@@ -78,7 +78,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
                 <input
                   type="password"
                   id="required-email"
-                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   name="password"
                   placeholder="password"
                   onChange={() => handleInputValue('password')}
@@ -91,7 +91,7 @@ export default function Signin({ handleResponseSuccess, setShowModal }) {
             {/* footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
-                className="block w-full bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
+                className="block w-full bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
                 type="button"
                 onClick={() => handleLogin}
               >

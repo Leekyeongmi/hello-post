@@ -14,8 +14,8 @@ export default function Rollingpaper() {
     <main>
       <Navbar tt={tt}></Navbar>
       <img
-        className="absolute bottom-2 left-1 w-1/3 opacity-90"
-        src="img/clumsy.png"
+        className="absolute bottom-2 left-2 w-1/3 opacity-90"
+        src="img/clumsy.svg"
       ></img>
       <ul>
         {tt.map((a, index) => {

@@ -3,7 +3,7 @@ import React from 'react';
 export default function Navbar({ tt }) {
   return (
     <>
-      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-amber-300 m-5 rounded-full">
+      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-blue-600 m-5 rounded-full">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className="flex">
@@ -14,7 +14,7 @@ export default function Navbar({ tt }) {
                 type="button"
                 className="text-md text-white text-6xl relative ml-5"
               >
-                <span className="animate-[bounce_1s_ease-in-out_infinite] w-5 h-5 rounded-full absolute right-2 leading text-sm bg-red-500">
+                <span className="animate-[bounce_1s_ease-in-out_infinite] w-5 h-5 rounded-full absolute right-2 leading text-sm bg-lime-500">
                   {tt.length}
                 </span>
                 <svg

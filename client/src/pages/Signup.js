@@ -16,7 +16,7 @@ export default function Signup() {
       <div className="flex flex-col w-full md:w-1/2">
         <div className="flex justify-center pt-12 md:justify-start md:pl-12 md:-mb-24"></div>
         <div className="flex flex-col px-8 pt-8 my-auto md:justify-start md:pt-0 md:px-24 lg:px-32">
-          <h1 className="font-bold text-center text-6xl sm:text-3xl text-gray leading-tight mt-4">
+          <h1 className="font-bold text-center text-6xl sm:text-3xl text-gray-800 leading-tight mt-4">
             Sign Up
             <br />
           </h1>
@@ -76,7 +76,7 @@ export default function Signup() {
                 onChange={() => handleInputValue('email')}
               />
             </div>
-            <button className="w-full bg-gray-800 transition ease-in duration-150 hover:bg-white hover:text-gray-800 hover:outline py-2 px-4 rounded-lg text-lg text-white font-bold uppercase mt-5">
+            <button className="w-full bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase mt-5">
               Sign Up
             </button>
           </div>
@@ -85,7 +85,7 @@ export default function Signup() {
       <div className="w-1/2 h-screen shadow-lg">
         <img
           className="object-cover h-screen md:block opacity-90"
-          src="/img/jumping.svg"
+          src="/img/dance.svg"
         />
       </div>
     </div>
