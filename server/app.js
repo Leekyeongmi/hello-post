@@ -2,12 +2,25 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+
+const { sequelize } = require('./models');
+
 const indexRouter = require('./router');
 const postsRouter = require('./router/posts');
 const usersRouter = require('./router/users');
 const app = express();
 
 app.set('port', process.env.PORT || 5500);
+
+// 익스프레스와 시퀄라이즈 연결
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log('Db connected!');
+  })
+  .catch(() => {
+    console.log('Db connection error!');
+  });
 
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
