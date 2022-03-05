@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         targetKey: 'id',
       });
-      Post.hasMany(models.message, {
+      Post.hasMany(models.Message, {
         foreignKey: 'post_id',
         sourceKey: 'id',
       });
