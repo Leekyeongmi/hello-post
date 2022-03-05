@@ -18,7 +18,10 @@ export default function Login({ isLogin, handleResponseSuccess }) {
           </div>
         </nav>
       </header>
-      <div className="left-3 bottom-5 container mx-auto px-6 md:pzx-12 relative z-10 flex items-center py-32 xl:py-40">
+      <div
+        className="left-8
+       bottom-5 container mx-auto px-6 md:pzx-12 relative z-10 flex items-center py-32 xl:py-40"
+      >
         <div className="lg:w-3/5 xl:w-2/5 flex flex-col items-start relative z-10">
           <span className="font-bold text-base uppercase mx-1 text-yellow-400">
             Hello-Post
