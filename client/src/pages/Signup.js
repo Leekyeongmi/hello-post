@@ -84,8 +84,8 @@ export default function Signup() {
       </div>
       <div className="w-1/2 h-screen shadow-lg">
         <img
-          className="object-cover h-screen md:block opacity-90"
-          src="/img/jumping.svg"
+          className="object-full h-screen md:block opacity-90"
+          src="/img/jumping2.svg"
         />
       </div>
     </div>
