@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Switch,
   Route,
@@ -14,23 +14,44 @@ import './app.css';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const [userId, setUserId] = useState();
   const [userinfo, setUserinfo] = useState(null);
-  // access token 상태 관리를 userinfo에 포함
+  const [accessToken, issueAccessToken] = useState(null);
   const history = useHistory();
 
   const isAuthenticated = () => {
     setIsLogin(true);
-    setUserinfo('hello');
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(respond => {
+        console.log(respond.data);
+        if (respond.data.message === 'ok') {
+          const { title, total_message, email, nickname } =
+            respond.data.userinfo;
+          setUserinfo({
+            title,
+            total_message,
+            email,
+            nickname,
+          });
+        }
+      })
+      .catch(error => console.log(error));
   };
 
-  const handleResponseSuccess = () => {
+  const handleResponseSuccess = accessToken => {
     isAuthenticated();
+    issueAccessToken(accessToken);
     history.push('/');
   };
 
-  useEffect(() => {
-    isAuthenticated();
-  }, []);
+  // useEffect(() => {
+  //   isAuthenticated();
+  // }, []);
 
   return (
     <div>
@@ -39,6 +60,7 @@ function App() {
           <Route path="/login">
             <Login
               isLogin={isLogin}
+              setUserId={setUserId}
               handleResponseSuccess={handleResponseSuccess}
             />
           </Route>
@@ -49,7 +71,15 @@ function App() {
             <Rollingpaper userinfo={userinfo} />
           </Route>
           <Route path="/">
-            {isLogin ? <Redirect to="/posts" /> : <Redirect to="/posts" />}
+            {isLogin ? (
+              <Redirect
+                to={{
+                  pathname: `/posts/${userId}`,
+                }}
+              />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
         </Switch>
       </BrowserRouter>
