@@ -46,11 +46,11 @@ export default function Login({ isLogin, handleResponseSuccess }) {
           <span className="font-bold uppercase mx-1 text-amber-400">
             Hello-Post
           </span>
-          <h1 className="font-bold text-6xl sm:text-7xl text-gray leading-tight mt-4">
+          <h1 className="font-bold text-6xl sm:text-7xl text-gray-900 leading-tight mt-4">
             Lets Rollingpaper!
             <br />
           </h1>
-          <p className="text-lg uppercase text-black-900 mt-5">
+          <p className="text-lg uppercase text-gray-900 mt-5">
             사랑하는 사람을 위한,
             <br />
             가나다라 마바사 글자 테스트!
