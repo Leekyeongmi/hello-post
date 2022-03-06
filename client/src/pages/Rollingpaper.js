@@ -1,29 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import Message from '../components/Message';
-import dummy from '../static/dummyData';
+// import dummy from '../static/dummyData';
 import Navbar from '../components/Navbar';
 import WriteMessage from '../components/WriteMessage';
+import axios from 'axios';
 
 export default function Rollingpaper() {
   const [showModal, setShowModal] = useState(false);
-  const [tt, tT] = useState(dummy);
+  // const [tt, tT] = useState(dummy);
 
   useEffect(() => {
-    tT(dummy);
+    setList(list);
   }, []);
+
+  const [list, setList] = useState({
+    title: '',
+    total_message: '',
+    messages: [
+      {
+        content: '',
+        writer: '',
+        created_at: new Date(),
+      },
+    ],
+  });
+
+  axios
+    .get('https://localhost/5500/posts/${uid}', {
+      headers: {
+        authorization: { 'Content-Type': 'application/json' },
+      },
+    })
+    .then(res => {
+      setList({
+        title: res.data.list.title,
+        total_message: res.data.list.total_message,
+        messages: {
+          content: res.data.list.messages.content,
+          writer: res.data.list.messages.writer,
+          created_at: res.data.list.messages.created_at,
+        },
+      });
+    });
 
   return (
     <main className="mt-5">
-      <Navbar tt={tt}></Navbar>
+      <Navbar tt={list.total_message}></Navbar>
       <img
         className="absolute bottom-2 left-2 w-1/3 opacity-90"
         src="img/clumsy.svg"
       ></img>
       <ul>
-        {tt.map((a, index) => {
+        {list.messages.map((a, index) => {
           return (
             <li key={index}>
-              <Message list={a} key={a.id} />
+              <Message list={a} key={index} />
             </li>
           );
         })}
