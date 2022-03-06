@@ -3,9 +3,9 @@ const User = require('../models/user');
 
 module.exports = {
   // findOne
-  findUser: (id, pw) => {
-    const user = User.findOne({
-      where: { id, pw },
+  findUser: async (email, password) => {
+    const user = await User.findOne({
+      where: { email, password },
     });
     if (!user) {
       return null;

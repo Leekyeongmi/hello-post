@@ -1,22 +1,29 @@
 const router = require('express').Router();
-const { usersController } = require('../controller/users.js');
+console.log('✔ usersRouter called!');
+const {
+  signup,
+  signin,
+  signout,
+  read,
+  update,
+} = require('../controller/users');
 
 // 회원가입
-router.post('/signup', usersController.signup);
+// router.post('/signup', usersController.signup);
 
 // 로그인
-router.post('/signin', usersController.signin);
+router.post('/signin', signin);
 
 // 로그아웃
-router.delete('/signout', usersController.signout);
+// router.delete('/signout', usersController.signout);
 
 // 회원정보 조회
-router.get('/:uid', usersController.read);
+// router.get('/:uid', usersController.read);
 
 // 회원정보 수정, 회원탈퇴
-router
-  .route('/properties')
-  .patch(usersController.update)
-  .delete(usersController.delete);
+// router
+//   .route('/properties')
+//   .patch(usersController.update)
+//   .delete(usersController.delete);
 
 module.exports = router;

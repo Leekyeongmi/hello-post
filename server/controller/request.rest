@@ -1,0 +1,7 @@
+POST http://localhost:5500/users/sigin HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "kim@hello.com",
+    "password": "1111"
+}

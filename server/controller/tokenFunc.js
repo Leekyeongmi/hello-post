@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 
 module.export = {
   // data는 해독된 사용자 정보
-  generateToken: (UserData, secretKey) => {
+  generateToken: (payload, secretKey) => {
     try {
-      const token = jwt.sign(UserData, secretKey, {
+      const token = jwt.sign(payload, secretKey, {
         expiresIn: '1d',
       });
       console.log('✔ TEST create token: ', token);

@@ -2,11 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const http = require('http');
 
 const { sequelize } = require('./models');
 
-const indexRouter = require('./router');
-const postsRouter = require('./router/posts');
+// const postsRouter = require('./router/posts');
 const usersRouter = require('./router/users');
 const app = express();
 
@@ -16,37 +16,30 @@ app.set('port', process.env.PORT || 5500);
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.log('Db connected!');
+    console.log('✔ Success: DB connection!');
   })
-  .catch(() => {
-    console.log('Db connection error!');
+  .catch(err => {
+    console.error('🚨 Fail: DB connection!', err);
   });
 
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
+  })
+);
 
-app.use('/', indexRouter);
-app.use('/posts', postsRouter);
+app.get('/', (req, res) => {
+  res.status(200).send('ok');
+});
+// app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
 
-app.use((req, res, next) => {
-  const err = new Error('Can not find router');
-  err.status = 404;
-  next(err);
-});
-
-app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.json({
-    status: 'error',
-    message: err.message,
-  });
-});
-
-app.listen(app.get('port'), () => {
-  console.log(`Server is running on port ', ${app.get('port')}`);
+const server = http.createServer(app);
+server.listen(app.get('port'), () => {
+  console.log(`✔ Server running on port ${app.get('port')}`);
 });
