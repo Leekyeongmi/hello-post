@@ -1,15 +1,35 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export default function Signup() {
   const history = useHistory();
-  const [userinfo, setuserinfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
-    username: '',
+    nickname: '',
   });
+  const handleSignup = () => {
+    const { email, password, nickname } = userInfo;
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/signup`,
+        {
+          email,
+          password,
+          nickname,
+        },
+        { headers: { 'Content-Type': 'application / json' } }
+      )
+      .then(respond => {
+        if (respond.data.message === 'ok') {
+          history.push('/');
+        }
+      })
+      .catch(error => console.log(error));
+  };
   const handleInputValue = key => e => {
-    setuserinfo({ ...userinfo, [key]: e.target.value });
+    setUserInfo({ ...userInfo, [key]: e.target.value });
   };
   return (
     <div className="flex flex-wrap w-full">
@@ -76,7 +96,10 @@ export default function Signup() {
                 onChange={() => handleInputValue('email')}
               />
             </div>
-            <button className="w-full bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase mt-5">
+            <button
+              onClick={handleSignup}
+              className="w-full bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase mt-5"
+            >
               Sign Up
             </button>
           </div>
