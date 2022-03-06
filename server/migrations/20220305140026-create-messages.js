@@ -27,6 +27,11 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    // messages 테이블에 FK인 posts의 id를 추가
+    await queryInterface.addColumn('post_id', {
+      type: Sequelize.INTEGER,
+      references: { model: 'Post', key: 'id' },
+    });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Messages');
