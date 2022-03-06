@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Sidemenu from './Sidemenu';
 
-export default function Navbar({ tt }) {
+export default function Navbar({ tt, setShowSidemenu }) {
   return (
     <>
-      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-blue-600 mx-5 rounded-full">
+      <nav className="top-5 relative flex flex-wrap items-center justify-between px-2 py-3 bg-blue-600 mx-5 rounded-full">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className="flex">
               <h1 className="font-bold text-3xl text-white leading-tight cursor-pointer">
-                To. Hello-Post
+                Lets Rollingpaper!
               </h1>
               <button
                 type="button"
@@ -80,7 +81,8 @@ export default function Navbar({ tt }) {
               <li className="nav-item">
                 <a
                   className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#pablo"
+                  href="#"
+                  onClick={() => setShowSidemenu(true)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
