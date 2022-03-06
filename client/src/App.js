@@ -13,9 +13,14 @@ import axios from 'axios';
 import './app.css';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [userId, setUserId] = useState();
-  const [userinfo, setUserinfo] = useState(null);
+  const [isLogin, setIsLogin] = useState(true);
+  const [userId, setUserId] = useState(null);
+  const [userinfo, setUserinfo] = useState({
+    title: 'Lets Rollingpaper!',
+    total_message: 3,
+    email: 'test@hello.com',
+    nickname: 'suri',
+  });
   const [accessToken, issueAccessToken] = useState(null);
   const history = useHistory();
 
@@ -68,7 +73,7 @@ function App() {
             <Signup isLogin={isLogin} />
           </Route>
           <Route exact path="/posts">
-            <Rollingpaper userinfo={userinfo} />
+            <Rollingpaper isLogin={isLogin} userinfo={userinfo} />
           </Route>
           <Route path="/">
             {isLogin ? (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function WriteMessage({ setShowModal }) {
+export default function WriteMessage({ setShowWrite }) {
   // 메세지 작성자, 이름 스테이트
   // 메세지 인풋 핸들러
   // 작성 내용 서버에 전송하기
@@ -17,7 +17,7 @@ export default function WriteMessage({ setShowModal }) {
               </h3>
               <button
                 className="p-1 ml-5 bg-transparent text-gray float-right text-3xl leading-none  focus:outline-none"
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowWrite(false)}
               >
                 <span className="absolute bg-transparent text-4xl leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none">
                   ×
