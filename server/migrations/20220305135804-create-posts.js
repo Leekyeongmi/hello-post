@@ -23,6 +23,11 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    // posts 테이블에 FK인 users의 id를 추가
+    await queryInterface.addColumn('Users', 'user_id', {
+      type: Sequelize.INTEGER,
+      references: { model: 'User', key: 'id' },
+    });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Posts');
