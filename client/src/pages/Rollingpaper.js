@@ -1,25 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import Message from '../components/Message';
-import dummy from '../static/dummyData';
+// import dummy from '../static/dummyData';
 import Navbar from '../components/Navbar';
 import WriteMessage from '../components/WriteMessage';
 import Sidemenu from '../components/Sidemenu';
+import axios from 'axios';
 
 export default function Rollingpaper({ isLogin, userinfo }) {
   const [showWrite, setShowWrite] = useState(false);
   const [showSidemenu, setShowSidemenu] = useState(false);
 
-  const [tt, tT] = useState(dummy);
-
   useEffect(() => {
-    tT(dummy);
+    setList(list);
   }, []);
+
+  const [list, setList] = useState({
+    title: '',
+    total_message: '',
+    messages: [
+      {
+        content: '',
+        writer: '',
+        created_at: new Date(),
+      },
+    ],
+  });
+
+  axios
+    .get('https://localhost/5500/posts/${uid}', {
+      headers: {
+        authorization: { 'Content-Type': 'application/json' },
+      },
+    })
+    .then(res => {
+      setList({
+        title: res.data.list.title,
+        total_message: res.data.list.total_message,
+        messages: {
+          content: res.data.list.messages.content,
+          writer: res.data.list.messages.writer,
+          created_at: res.data.list.messages.created_at,
+        },
+      });
+    });
 
   return (
     <div className="h-screen bg-amber-50">
       <main className="">
         <Navbar
-          tt={tt}
+          tt={list.total_message}
           showSidemenu={showSidemenu}
           setShowSidemenu={setShowSidemenu}
         ></Navbar>
@@ -27,15 +56,15 @@ export default function Rollingpaper({ isLogin, userinfo }) {
           className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
           src="img/doodle.svg"
         ></img>
-        {/* <ul>
-          {tt.map((a, index) => {
-            return (
-              <li key={index}>
-                <Message list={a} key={a.id} />
-              </li>
-            );
-          })}
-        </ul> */}
+       <ul>
+        {list.messages.map((a, index) => {
+          return (
+            <li key={index}>
+              <Message list={a} key={index} />
+            </li>
+          );
+        })}
+      </ul>
         <button
           onClick={() => setShowWrite(true)}
           className="absolute bg-blue-600 text-white right-5 bottom-5 items-center p-4 transition ease-in duration-200 uppercase rounded-full"
