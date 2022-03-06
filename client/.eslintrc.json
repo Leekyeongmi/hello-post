@@ -3,25 +3,29 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "google",
-    "eslint:recommended",
-    "plugin:prettier/recommended"
-  ],
-
+  "extends": ["plugin:react/recommended", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": "latest",
+    "ecmaVersion": 2021,
     "sourceType": "module"
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
     "require-jsdoc": 0,
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "prettier/prettier": "error",
+    "react/prop-types": [0],
+    "quote-props": [
+      "error",
+      "as-needed",
+      {
+        "keywords": true,
+        "unnecessary": false
+      }
+    ],
+    "indent": [1, 2],
+    "space-before-function-paren": [0]
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Switch,
   Route,
@@ -13,33 +13,45 @@ import axios from 'axios';
 import './app.css';
 
 function App() {
-  // 서버연결 확인코드
-  useEffect(() => {
-    axiosTest();
-  });
-  const axiosTest = () => {
-    axios
-      .get('http://localhost:5500')
-      .then(res => console.log(res.data).catch(err => console.log(err)));
-  };
-
   const [isLogin, setIsLogin] = useState(false);
+  const [userId, setUserId] = useState();
   const [userinfo, setUserinfo] = useState(null);
+  const [accessToken, issueAccessToken] = useState(null);
   const history = useHistory();
 
   const isAuthenticated = () => {
     setIsLogin(true);
-    setUserinfo('hello');
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(respond => {
+        console.log(respond.data);
+        if (respond.data.message === 'ok') {
+          const { title, total_message, email, nickname } =
+            respond.data.userinfo;
+          setUserinfo({
+            title,
+            total_message,
+            email,
+            nickname,
+          });
+        }
+      })
+      .catch(error => console.log(error));
   };
 
-  const handleResponseSuccess = () => {
+  const handleResponseSuccess = accessToken => {
     isAuthenticated();
+    issueAccessToken(accessToken);
     history.push('/');
   };
 
-  useEffect(() => {
-    isAuthenticated();
-  }, []);
+  // useEffect(() => {
+  //   isAuthenticated();
+  // }, []);
 
   return (
     <div>
@@ -48,6 +60,7 @@ function App() {
           <Route path="/login">
             <Login
               isLogin={isLogin}
+              setUserId={setUserId}
               handleResponseSuccess={handleResponseSuccess}
             />
           </Route>
@@ -58,7 +71,15 @@ function App() {
             <Rollingpaper userinfo={userinfo} />
           </Route>
           <Route path="/">
-            {isLogin ? <Redirect to="/posts" /> : <Redirect to="/login" />}
+            {isLogin ? (
+              <Redirect
+                to={{
+                  pathname: `/posts/${userId}`,
+                }}
+              />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
         </Switch>
       </BrowserRouter>
