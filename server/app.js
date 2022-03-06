@@ -20,6 +20,7 @@ sequelize
   })
   .catch(err => {
     console.error('🚨 Fail: DB connection!', err);
+
   });
 
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));

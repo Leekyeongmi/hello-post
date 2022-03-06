@@ -11,6 +11,7 @@ module.exports = {
       email: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
       },
       password: {
         allowNull: false,
@@ -18,7 +19,7 @@ module.exports = {
       },
       nickname: {
         type: Sequelize.STRING,
-        defaultValue: '익명의 친구',
+        defaultValue: 'Friend',
       },
       available: {
         type: Sequelize.BOOLEAN,
