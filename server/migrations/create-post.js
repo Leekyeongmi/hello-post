@@ -10,23 +10,15 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        defaultValue: 'Welcome!',
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
-    });
-    // posts 테이블에 FK인 users의 id를 추가
-    await queryInterface.addColumn('Users', 'user_id', {
-      type: Sequelize.INTEGER,
-      references: { model: 'User', key: 'id' },
     });
   },
   async down(queryInterface, Sequelize) {

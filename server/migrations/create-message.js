@@ -10,27 +10,18 @@ module.exports = {
       },
       content: {
         type: Sequelize.STRING,
-        defaultValue: 'Hello',
       },
       writer: {
         type: Sequelize.STRING,
-        defaultValue: '비밀 친구',
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
-    });
-    // messages 테이블에 FK인 posts의 id를 추가
-    await queryInterface.addColumn('post_id', {
-      type: Sequelize.INTEGER,
-      references: { model: 'Post', key: 'id' },
     });
   },
   async down(queryInterface, Sequelize) {
