@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
   //* 회원탈퇴 핸들러 만들기
   //* 회원수정 페이지로 리디렉션 하기
@@ -54,29 +56,31 @@ export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
                     <span className="mx-4 text-lg font-normal">로그아웃</span>
                     <span className="flex-grow text-right"></span>
                   </a>
-                  <a
-                    className="flex-grow hover:text-white flex items-center p-2 my-3 transition-colors hover:bg-blue-600 duration-200  text-gray-800 rounded-lg"
-                    href="#"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
+                  <Link to="/userinfo">
+                    <a
+                      className="flex-grow hover:text-white flex items-center p-2 my-3 transition-colors hover:bg-blue-600 duration-200  text-gray-800 rounded-lg"
+                      href="#"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                      />
-                    </svg>
-                    <span className="mx-4 text-lg font-normal">
-                      회원정보 수정
-                    </span>
-                    <span className="flex-grow text-right"></span>
-                  </a>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                        />
+                      </svg>
+                      <span className="mx-4 text-lg font-normal">
+                        회원정보 수정
+                      </span>
+                      <span className="flex-grow text-right"></span>
+                    </a>
+                  </Link>
                   <a
                     className="mt-0 flex-grow hover:text-white flex items-center p-2 my-6 transition-colors hover:bg-blue-600 duration-200 text-gray-800 rounded-lg"
                     href="#"

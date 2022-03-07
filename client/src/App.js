@@ -9,13 +9,14 @@ import {
 import Login from './pages/Login';
 import Rollingpaper from './pages/Rollingpaper';
 import Signup from './pages/Signup';
+import Userinfo from './pages/Userinfo';
 import axios from 'axios';
 import './app.css';
 
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [userId, setUserId] = useState(null);
   const [userinfo, setUserinfo] = useState({
     title: 'Lets Rollingpaper!',
@@ -69,9 +70,9 @@ function App() {
       .catch(error => console.log(error));
   };
 
-  // useEffect(() => {
-  //   isAuthenticated();
-  // }, []);
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
 
   return (
     <div>
@@ -86,6 +87,9 @@ function App() {
           </Route>
           <Route exact path="/signup">
             <Signup isLogin={isLogin} />
+          </Route>
+          <Route exact path="/userinfo">
+            <Userinfo />
           </Route>
           <Route path="/posts">
             <Rollingpaper
