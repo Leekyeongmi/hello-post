@@ -9,6 +9,7 @@ import PdfNotification from '../components/PdfNotification';
 import axios from 'axios';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
+import image from '../doodle.svg';
 
 export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
   const [showWrite, setShowWrite] = useState(false);
@@ -67,7 +68,7 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
   // };
 
   return (
-    <div className="h-screen bg-amber-50">
+    <div className="h-screen bg-amber-50 overflow-hidden">
       <main>
         <Navbar
           tt={list.length}
@@ -78,12 +79,12 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
         ></Navbar>
         <img
           className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
-          src={'img/doodle.svg'}
+          src={image}
         ></img>
-        <div className="">
-          <ul className="absolute mt-10 grid grid-cols-4 gap-4" ref={printRef}>
+        <div className="m-5 ml-10">
+          <ul ref={printRef} className="grid grid-cols-4 gap-4">
             {list.map((a, index) => {
-              return <Message list={a} key={index} />;
+              return <Message list={a} index={index} key={index} />;
             })}
           </ul>
         </div>
