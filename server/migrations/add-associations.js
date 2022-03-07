@@ -13,18 +13,7 @@ module.exports = {
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     });
-    // 2) Posts: Messages = 1: N
-    // Posts 테이블에 message_id 추가
-    await queryInterface.addColumn('Posts', 'message_id', {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'Messages',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    // 3) Messages: Posts = N: 1
+    // 2) Messages: Posts = N: 1
     // Messages 테이블에 post_id 추가
     await queryInterface.addColumn('Messages', 'post_id', {
       type: Sequelize.INTEGER,
@@ -40,9 +29,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     // 1) Users: Posts = 1: 1
     await queryInterface.removeColumn('Posts', 'user_id');
-    // 2) Posts: Messages = 1: N
-    await queryInterface.removeColumn('Posts', 'message_id');
-    // 3) Messages: Posts = N: 1
+    // 2) Messages: Posts = N: 1
     await queryInterface.removeColumn('Messages', 'post_id');
   },
 };
