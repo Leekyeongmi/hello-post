@@ -1,6 +1,11 @@
 import React, { useRef } from 'react';
 
-export default function Navbar({ tt, setShowSidemenu, setShowNotification }) {
+export default function Navbar({
+  tt,
+  setShowSidemenu,
+  setShowNotification,
+  setShowPdf,
+}) {
   // 현재 url 복사하는 코드
   const copyUrlRef = useRef(null);
 
@@ -25,7 +30,7 @@ export default function Navbar({ tt, setShowSidemenu, setShowNotification }) {
                 className="text-md text-white text-6xl relative ml-5"
               >
                 <span className="animate-[bounce_1s_ease-in-out_infinite] w-5 h-5 rounded-full absolute right-2 leading text-sm bg-lime-500">
-                  {tt.length}
+                  {tt}
                 </span>
                 <svg
                   width="10"
@@ -46,7 +51,8 @@ export default function Navbar({ tt, setShowSidemenu, setShowNotification }) {
               <li className="nav-item">
                 <a
                   className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-tight text-white hover:opacity-75"
-                  href="#pablo"
+                  href="#"
+                  onClick={() => setShowPdf(true)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -2,12 +2,11 @@ import { Link } from 'react-router-dom';
 
 export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
   //* 회원탈퇴 핸들러 만들기
-  //* 회원수정 페이지로 리디렉션 하기
   const { nickname, title, email } = userinfo;
 
   return (
     <div className="transition ease-in-out h-full w-screen">
-      <div className="fixed inset-y-0 right-5 z-50 flex rounded-3xl bg-lime-50 mt-64 mb-4">
+      <div className="fixed inset-y-0 right-5 z-50 flex rounded-3xl bg-amber-50 shadow-2xl mt-64 mb-4 border-solid border-0 border-blue-600 hover:ring-1 transition-all">
         <div className="flex flex-col sm:flex-row sm:justify-around">
           <div className="w-80">
             <div className="flex items-center justify-start mx-6 mt-8">
