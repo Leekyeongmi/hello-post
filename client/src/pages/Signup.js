@@ -6,6 +6,7 @@ import Notification from '../components/Notification';
 export default function Signup() {
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg2, setErrorMsg2] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: '',
@@ -24,7 +25,24 @@ export default function Signup() {
     return password === confirm;
   };
 
-  const matchHandler = () => {
+  // 비밀번호 보안 강화
+  const strongPassword = str => {
+    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+      str
+    );
+  };
+
+  const passwordHandler = () => {
+    console.log(strongPassword(userInfo.password));
+    if (!strongPassword(userInfo.password)) {
+      setErrorMsg2(
+        '최소 8자 이상, 알파벳과 숫자 및 특수문자는 하나 이상 포함하세요.'
+      );
+    }
+    if (strongPassword(userInfo.password)) {
+      setErrorMsg2('');
+    }
+
     if (!passwordMatch()) {
       setErrorMsg('비밀번호가 일치하지 않습니다.');
     } else {
@@ -33,12 +51,12 @@ export default function Signup() {
   };
 
   useEffect(() => {
-    matchHandler();
+    passwordHandler();
   });
 
   const handleSignup = () => {
     const { email, password, confirm, nickname } = userInfo;
-    if (!passwordMatch()) {
+    if (!passwordMatch() || !strongPassword(password)) {
       return setShowNotification(true);
     }
 
@@ -87,7 +105,7 @@ export default function Signup() {
                 onChange={handleInputValue('email')}
               />
             </div>
-            <div className="mb-3 relative">
+            <div className="mb-1 relative">
               <label htmlFor="required-email" className="text-gray-700 mt-10">
                 Password
                 <span className="text-red-500 required-dot"> *</span>
@@ -100,6 +118,7 @@ export default function Signup() {
                 onChange={handleInputValue('password')}
               />
             </div>
+            <span className="text-red-500 text-sm">{errorMsg2}</span>
             <div className="mb-1 relative">
               <label className="text-gray-700 mt-10">
                 Confirm Password
