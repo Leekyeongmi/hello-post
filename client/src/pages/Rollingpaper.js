@@ -1,72 +1,92 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import dummy from '../static/dummyData';
 import Message from '../components/Message';
 import Navbar from '../components/Navbar';
 import WriteMessage from '../components/WriteMessage';
 import Sidemenu from '../components/Sidemenu';
 import Notification from '../components/Notification';
+import PdfNotification from '../components/PdfNotification';
 import axios from 'axios';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 
 export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
   const [showWrite, setShowWrite] = useState(false);
   const [showSidemenu, setShowSidemenu] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [ShowPdf, setShowPdf] = useState(false);
 
-  useEffect(() => {
-    setList(list);
-  }, []);
+  // useEffect(() => {
+  //   setList(list);
+  // }, []);
 
-  const [list, setList] = useState({
-    title: '',
-    total_message: '',
-    messages: [
-      {
-        content: '',
-        writer: '',
-        created_at: new Date(),
-      },
-    ],
-  });
+  const printRef = useRef();
+  const onDownloadBtn = () => {
+    setShowPdf(false);
+    const message = printRef.current;
+    domtoimage
+      .toBlob(message)
+      .then(blob => {
+        saveAs(blob, 'rollingpaper.png');
+      })
+      .catch(error => console.log(error));
+  };
 
-  axios
-    .get('https://localhost/5500/posts/${uid}', {
-      headers: {
-        authorization: { 'Content-Type': 'application/json' },
-      },
-    })
-    .then(res => {
-      setList({
-        title: res.data.list.title,
-        total_message: res.data.list.total_message,
-        messages: {
-          content: res.data.list.messages.content,
-          writer: res.data.list.messages.writer,
-          created_at: res.data.list.messages.created_at,
-        },
-      });
-    });
+  const [list, setList] = useState(dummy);
+
+  // useState({
+  //   title: '',
+  //   total_message: '',
+  //   messages: [
+  //     {
+  //       content: '',
+  //       writer: '',
+  //       created_at: new Date(),
+  //     },
+  //   ],
+  // });
+
+  // const readHandler = () => {
+  //   axios
+  //     .get('https://localhost/5500/posts/${uid}', {
+  //       headers: {
+  //         authorization: { 'Content-Type': 'application/json' },
+  //       },
+  //     })
+  //     .then(res => {
+  //       setList({
+  //         title: res.data.list.title,
+  //         total_message: res.data.list.total_message,
+  //         messages: {
+  //           content: res.data.list.messages.content,
+  //           writer: res.data.list.messages.writer,
+  //           created_at: res.data.list.messages.created_at,
+  //         },
+  //       });
+  //     });
+  // };
 
   return (
     <div className="h-screen bg-amber-50">
       <main>
         <Navbar
-          tt={list.total_message}
+          tt={list.length}
           showSidemenu={showSidemenu}
           setShowSidemenu={setShowSidemenu}
           setShowNotification={setShowNotification}
+          setShowPdf={setShowPdf}
         ></Navbar>
         <img
           className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
           src={'img/doodle.svg'}
         ></img>
-        {/* <ul>
-          {list.messages.map((a, index) => {
-            return (
-              <li key={index}>
-                <Message list={a} key={index} />
-              </li>
-            );
-          })}
-        </ul> */}
+        <div className="">
+          <ul className="absolute mt-10 grid grid-cols-4 gap-4" ref={printRef}>
+            {list.map((a, index) => {
+              return <Message list={a} key={index} />;
+            })}
+          </ul>
+        </div>
 
         <button
           onClick={() => setShowWrite(true)}
@@ -101,6 +121,13 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
             ></Sidemenu>
           ) : null}
         </div>
+        {ShowPdf ? (
+          <PdfNotification
+            onDownloadBtn={onDownloadBtn}
+            setShowPdf={setShowPdf}
+            content="롤링페이퍼를 이미지로 소장하시겠습니까?"
+          ></PdfNotification>
+        ) : null}
       </div>
       {showNotification ? (
         <Notification
