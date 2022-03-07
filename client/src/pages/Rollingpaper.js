@@ -3,11 +3,13 @@ import Message from '../components/Message';
 import Navbar from '../components/Navbar';
 import WriteMessage from '../components/WriteMessage';
 import Sidemenu from '../components/Sidemenu';
+import Notification from '../components/Notification';
 import axios from 'axios';
 
 export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
   const [showWrite, setShowWrite] = useState(false);
   const [showSidemenu, setShowSidemenu] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     setList(list);
@@ -50,6 +52,7 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
           tt={list.total_message}
           showSidemenu={showSidemenu}
           setShowSidemenu={setShowSidemenu}
+          setShowNotification={setShowNotification}
         ></Navbar>
         <img
           className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
@@ -64,6 +67,7 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
             );
           })}
         </ul> */}
+
         <button
           onClick={() => setShowWrite(true)}
           className="absolute bg-blue-600 text-white right-5 bottom-5 items-center p-4 transition ease-in duration-200 uppercase rounded-full"
@@ -98,6 +102,12 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
           ) : null}
         </div>
       </div>
+      {showNotification ? (
+        <Notification
+          setShowNotification={setShowNotification}
+          content="링크 복사가 완료되었습니다."
+        ></Notification>
+      ) : null}
     </div>
   );
 }
