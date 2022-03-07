@@ -55,7 +55,7 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
           className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
           src={'img/doodle.svg'}
         ></img>
-        <ul>
+        {/* <ul>
           {list.messages.map((a, index) => {
             return (
               <li key={index}>
@@ -63,7 +63,7 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
               </li>
             );
           })}
-        </ul>
+        </ul> */}
         <button
           onClick={() => setShowWrite(true)}
           className="absolute bg-blue-600 text-white right-5 bottom-5 items-center p-4 transition ease-in duration-200 uppercase rounded-full"

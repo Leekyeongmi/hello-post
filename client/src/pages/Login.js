@@ -55,8 +55,8 @@ export default function Login({ isLogin, handleResponseSuccess, setUserId }) {
         </div>
       </div>
       <img
-        src="img/test.svg"
-        className="absolute bottom-12 right-0 w-3/5 h-4/5 opacity-90"
+        src="img/login.svg"
+        className="absolute bottom-12 right-0 w-3/5 h-4/5 opacity-80"
       />
     </div>
   );

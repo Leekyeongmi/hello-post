@@ -13,12 +13,7 @@ export default function Signin({
 
   const [errMessage, setErrMessage] = useState('');
 
-  useEffect(() => {
-    const { email, password } = loginInfo;
-    if (!email || !password) {
-      setErrMessage('아이디와 비밀번호를 모두 입력해주세요.');
-    }
-  });
+  useEffect(() => {});
 
   const handleInputValue = key => e => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
@@ -26,6 +21,10 @@ export default function Signin({
 
   const handleLogin = () => {
     const { email, password } = loginInfo;
+
+    if (!email || !password) {
+      return setErrMessage('아이디와 비밀번호를 모두 입력해주세요.');
+    }
 
     axios
       .post(
