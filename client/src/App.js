@@ -12,8 +12,10 @@ import Signup from './pages/Signup';
 import axios from 'axios';
 import './app.css';
 
+axios.defaults.withCredentials = true;
+
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userinfo, setUserinfo] = useState({
     title: 'Lets Rollingpaper!',
@@ -54,6 +56,19 @@ function App() {
     history.push('/');
   };
 
+  const handleLogout = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/signout`, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(res => {
+        setUserinfo(null);
+        setIsLogin(false);
+        history.push('/');
+      })
+      .catch(error => console.log(error));
+  };
+
   // useEffect(() => {
   //   isAuthenticated();
   // }, []);
@@ -72,10 +87,14 @@ function App() {
           <Route exact path="/signup">
             <Signup isLogin={isLogin} />
           </Route>
-          <Route exact path="/posts">
-            <Rollingpaper isLogin={isLogin} userinfo={userinfo} />
+          <Route path="/posts">
+            <Rollingpaper
+              isLogin={isLogin}
+              userinfo={userinfo}
+              handleLogout={handleLogout}
+            />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             {isLogin ? (
               <Redirect
                 to={{

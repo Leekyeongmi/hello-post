@@ -1,11 +1,7 @@
-import { useHistory } from 'react-router-dom';
-
-export default function Sidemenu({ isLogin, userinfo }) {
-  //* 로그아웃 핸들러 만들기
+export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
   //* 회원탈퇴 핸들러 만들기
   //* 회원수정 페이지로 리디렉션 하기
   const { nickname, title, email } = userinfo;
-  const history = useHistory();
 
   return (
     <div className="transition ease-in-out h-full w-screen">
@@ -37,7 +33,7 @@ export default function Sidemenu({ isLogin, userinfo }) {
               {isLogin ? (
                 <div>
                   <a
-                    onClick={() => alert('hello?')}
+                    onClick={handleLogout}
                     className="mt-12 flex-grow hover:text-white flex items-center p-2 my-3 transition-colors hover:bg-blue-600 duration-200 text-gray-800 rounded-lg"
                     href="#"
                   >
