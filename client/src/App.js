@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -9,13 +9,21 @@ import {
 import Login from './pages/Login';
 import Rollingpaper from './pages/Rollingpaper';
 import Signup from './pages/Signup';
+import Userinfo from './pages/Userinfo';
 import axios from 'axios';
 import './app.css';
 
+axios.defaults.withCredentials = true;
+
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [userId, setUserId] = useState();
-  const [userinfo, setUserinfo] = useState(null);
+  const [isLogin, setIsLogin] = useState(true);
+  const [userId, setUserId] = useState(null);
+  const [userinfo, setUserinfo] = useState({
+    title: 'Lets Rollingpaper!',
+    total_message: 3,
+    email: 'test@hello.com',
+    nickname: 'suri',
+  });
   const [accessToken, issueAccessToken] = useState(null);
   const history = useHistory();
 
@@ -49,9 +57,28 @@ function App() {
     history.push('/');
   };
 
-  // useEffect(() => {
-  //   isAuthenticated();
-  // }, []);
+  const handleLogout = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/signout`, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(res => {
+        if (res.data.message === '로그아웃 성공') {
+          setUserinfo({
+            title: '',
+            total_message: '',
+            email: '',
+            nickname: '',
+          });
+          setIsLogin(false);
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
 
   return (
     <div>
@@ -67,10 +94,17 @@ function App() {
           <Route exact path="/signup">
             <Signup isLogin={isLogin} />
           </Route>
-          <Route exact path="/posts">
-            <Rollingpaper userinfo={userinfo} />
+          <Route exact path="/userinfo">
+            <Userinfo />
           </Route>
-          <Route path="/">
+          <Route path="/posts">
+            <Rollingpaper
+              isLogin={isLogin}
+              userinfo={userinfo}
+              handleLogout={handleLogout}
+            />
+          </Route>
+          <Route exact path="/">
             {isLogin ? (
               <Redirect
                 to={{

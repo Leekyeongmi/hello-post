@@ -1,34 +1,37 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Messages', {
+    // cli에서 모델 'User'로 생성했는데 테이블명은 'Users'
+    await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      content: {
+      email: {
         type: Sequelize.STRING,
-        defaultValue: 'Hello',
       },
-      writer: {
+      password: {
         type: Sequelize.STRING,
-        defaultValue: '비밀 친구',
       },
-      createdAt: {
+      nickname: {
+        type: Sequelize.STRING,
+      },
+      available: {
+        type: Sequelize.BOOLEAN,
+      },
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
-    });
+    }); // end of queryInterface.createTable
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Messages');
+    await queryInterface.dropTable('Users');
   },
 };

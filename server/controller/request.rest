@@ -1,0 +1,17 @@
+POST http://localhost:5500/users/sigin HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "kim@hello.com",
+    "password": "1111"
+}
+
+###
+POST http://localhost:5500/users/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "ann@hello.com",
+    "password": "1111",
+    "nickname": "rollAnn",
+}

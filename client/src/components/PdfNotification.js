@@ -1,8 +1,12 @@
-export default function Notification({ content, setShowNotification }) {
+export default function PdfNotification({
+  content,
+  setShowPdf,
+  onDownloadBtn,
+}) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="shadow-lg rounded-2xl p-4 bg-white w-80">
+        <div className="shadow-lg rounded-2xl p-4 bg-white w-84">
           <div className="w-full h-full text-center">
             <div className="flex h-full flex-col justify-between">
               <svg
@@ -27,18 +31,19 @@ export default function Notification({ content, setShowNotification }) {
               </p>
               <div className="flex items-center justify-between gap-4 w-full mt-8">
                 <button
-                  onClick={() => setShowNotification(false)}
+                  onClick={onDownloadBtn}
                   type="button"
                   className="py-2 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-1 focus:ring-offset-1  rounded-lg "
                 >
                   확인
                 </button>
-                {/* <button
+                <button
+                  onClick={() => setShowPdf(false)}
                   type="button"
                   className="py-2 px-4  bg-white hover:bg-gray-100 focus:ring-blue-500 focus:ring-offset-blue-200 text-blue-500 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 >
                   cancel
-                </button> */}
+                </button>
               </div>
             </div>
           </div>

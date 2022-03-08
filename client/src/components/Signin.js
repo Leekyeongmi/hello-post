@@ -13,12 +13,7 @@ export default function Signin({
 
   const [errMessage, setErrMessage] = useState('');
 
-  useEffect(() => {
-    const { email, password } = loginInfo;
-    if (!email || !password) {
-      setErrMessage('아이디와 비밀번호를 모두 입력해주세요.');
-    }
-  });
+  useEffect(() => {});
 
   const handleInputValue = key => e => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
@@ -26,6 +21,12 @@ export default function Signin({
 
   const handleLogin = () => {
     const { email, password } = loginInfo;
+
+    if (!email || !password) {
+      return setErrMessage('아이디와 비밀번호를 모두 입력해주세요.');
+    } else {
+      setErrMessage('');
+    }
 
     axios
       .post(
@@ -82,10 +83,10 @@ export default function Signin({
                 <input
                   type="text"
                   id="required-email"
-                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="required rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   name="email"
                   placeholder="email"
-                  onChange={() => handleInputValue('email')}
+                  onChange={handleInputValue('email')}
                 />
               </div>
               <div className="relative">
@@ -95,13 +96,12 @@ export default function Signin({
                 </label>
                 <input
                   type="password"
-                  id="required-email"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   name="password"
                   placeholder="password"
-                  onChange={() => handleInputValue('password')}
+                  onChange={handleInputValue('password')}
                 />
-                <p className="text-base uppercase text-gray-900 mt-5">
+                <p className="text-base uppercase text-red-500 mt-5">
                   {errMessage}
                 </p>
               </div>
@@ -111,7 +111,7 @@ export default function Signin({
               <button
                 className="block w-full bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
                 type="button"
-                onClick={() => handleLogin}
+                onClick={handleLogin}
               >
                 Log in
               </button>
