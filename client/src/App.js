@@ -63,9 +63,15 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(res => {
-        setUserinfo(null);
-        setIsLogin(false);
-        history.push('/');
+        if (res.data.message === '로그아웃 성공') {
+          setUserinfo({
+            title: '',
+            total_message: '',
+            email: '',
+            nickname: '',
+          });
+          setIsLogin(false);
+        }
       })
       .catch(error => console.log(error));
   };

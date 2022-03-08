@@ -101,12 +101,6 @@ const dummy = [
     content: '육',
     createdAt: '2019-02-28T16:17:47.000Z',
   },
-  {
-    id: 18,
-    username: 'cris',
-    content: '육',
-    createdAt: '2019-02-28T16:17:47.000Z',
-  },
 ];
 
 export default dummy;

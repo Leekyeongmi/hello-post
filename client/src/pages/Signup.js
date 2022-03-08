@@ -161,7 +161,7 @@ export default function Signup() {
       {showNotification ? (
         <Notification
           setShowNotification={setShowNotification}
-          content="올바른 사용자 정보를 입력해주세요."
+          content="사용자 정보를 모두 입력해주세요."
         ></Notification>
       ) : null}
     </div>

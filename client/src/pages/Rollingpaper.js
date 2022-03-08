@@ -17,9 +17,9 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
   const [showNotification, setShowNotification] = useState(false);
   const [ShowPdf, setShowPdf] = useState(false);
 
-  // useEffect(() => {
-  //   setList(list);
-  // }, []);
+  useEffect(() => {
+    readHandler();
+  }, []);
 
   const printRef = useRef();
   const onDownloadBtn = () => {
@@ -35,63 +35,64 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
 
   const [list, setList] = useState(dummy);
 
-  // useState({
-  //   title: '',
-  //   total_message: '',
-  //   messages: [
-  //     {
-  //       content: '',
-  //       writer: '',
-  //       created_at: new Date(),
-  //     },
-  //   ],
-  // });
+  useState({
+    title: '',
+    total_message: '',
+    messages: [
+      {
+        content: '',
+        writer: '',
+        created_at: new Date(),
+      },
+    ],
+  });
 
-  // const readHandler = () => {
-  //   axios
-  //     .get('https://localhost/5500/posts/${uid}', {
-  //       headers: {
-  //         authorization: { 'Content-Type': 'application/json' },
-  //       },
-  //     })
-  //     .then(res => {
-  //       setList({
-  //         title: res.data.list.title,
-  //         total_message: res.data.list.total_message,
-  //         messages: {
-  //           content: res.data.list.messages.content,
-  //           writer: res.data.list.messages.writer,
-  //           created_at: res.data.list.messages.created_at,
-  //         },
-  //       });
-  //     });
-  // };
+  const readHandler = () => {
+    axios
+      .get('https://localhost/5500/posts/${uid}', {
+        headers: {
+          authorization: { 'Content-Type': 'application/json' },
+        },
+      })
+      .then(res => {
+        setList({
+          title: res.data.list.title,
+          total_message: res.data.list.total_message,
+          messages: {
+            content: res.data.list.messages.content,
+            writer: res.data.list.messages.writer,
+            created_at: res.data.list.messages.created_at,
+          },
+        });
+      });
+  };
 
   return (
-    <div className="h-screen bg-amber-50 overflow-hidden">
-      <main>
-        <Navbar
-          tt={list.length}
-          showSidemenu={showSidemenu}
-          setShowSidemenu={setShowSidemenu}
-          setShowNotification={setShowNotification}
-          setShowPdf={setShowPdf}
-        ></Navbar>
+    <div className="h-screen bg-amber-50 overflow-x-hidden">
+      <Navbar
+        tt={list.length}
+        showSidemenu={showSidemenu}
+        setShowSidemenu={setShowSidemenu}
+        setShowNotification={setShowNotification}
+        setShowPdf={setShowPdf}
+      ></Navbar>
+      <main onClick={() => setShowSidemenu(false)}>
         <img
-          className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
+          className="absolute bottom-5 left-1/4 w-1/2 opacity-10"
           src={image}
         ></img>
-        <div className="m-5 ml-10">
-          <ul ref={printRef} className="grid grid-cols-4 gap-4">
+        <div className="mr-6 mx-5 my-7">
+          <ul ref={printRef} className="grid grid-cols-6">
             {list.map((a, index) => {
-              return <Message list={a} index={index} key={index} />;
+              return (
+                <Message array={list} list={a} index={index} key={index} />
+              );
             })}
           </ul>
         </div>
-
         <button
           onClick={() => setShowWrite(true)}
-          className="absolute bg-blue-600 text-white right-5 bottom-5 items-center p-4 transition ease-in duration-200 uppercase rounded-full"
+          className="z-50 absolute bg-blue-600 text-white right-5 bottom-5 items-center p-4 transition ease-in duration-200 uppercase rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +113,7 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
           <WriteMessage setShowWrite={setShowWrite}></WriteMessage>
         ) : null}
       </main>
-      <div onClick={() => setShowSidemenu(false)}>
+      <div>
         <div>
           {showSidemenu ? (
             <Sidemenu

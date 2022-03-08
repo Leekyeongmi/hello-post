@@ -6,16 +6,16 @@ export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
 
   return (
     <div className="transition ease-in-out h-full w-screen">
-      <div className="fixed inset-y-0 right-5 z-50 flex rounded-3xl bg-amber-50 shadow-2xl mt-64 mb-4 border-solid border-0 border-blue-600 hover:ring-1 transition-all">
+      <div className="fixed inset-y-0 right-5 z-50 flex rounded-3xl bg-amber-50 shadow-2xl mt-64 mb-4 border-solid border-0 hover: ring-amber-100 hover:ring-2 transition-all">
         <div className="flex flex-col sm:flex-row sm:justify-around">
           <div className="w-80">
-            <div className="flex items-center justify-start mx-6 mt-8">
+            <div className="flex items-center justify-start mx-6 mt-7">
               <img className="h-11 w-11 rounded-full" src="/img/doodle2.png" />
               <span className="text-gray-800 ml-4 text-xl font-bold uppercase">
                 Hello, {isLogin ? nickname : 'Guest'}!
               </span>
             </div>
-            <nav className="mt-7 px-6 ">
+            <nav className="mt-6 px-6 ">
               {isLogin ? (
                 <>
                   <div className="text-gray-800 font-bold text-lg">이메일</div>
