@@ -1,5 +1,6 @@
-const { createAccessToken, isAuthorized } = require('../../utils/token');
-const { User, Post, Message } = require('../../models');
+console.log('✔✔ postsController called!');
+const { isAuthorized } = require('../utils/token');
+const { Post, Message } = require('../models');
 
 module.exports = {
   // 메시지 작성

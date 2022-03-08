@@ -1,5 +1,6 @@
-const { createAccessToken, isAuthorized } = require('../../utils/token');
-const { User, Post, Message } = require('../../models');
+console.log('✔✔ usersController called!');
+const { createAccessToken, isAuthorized } = require('../utils/token');
+const { User, Post, Message } = require('../models');
 const crypto = require('crypto');
 
 module.exports = {
