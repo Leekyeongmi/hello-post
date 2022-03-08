@@ -18,7 +18,7 @@ export default function WriteMessage({ setShowWrite }) {
 
   const SendMessage = () => {
     axios
-      .post('https://localhost/5500/posts/message', {
+      .post(`${process.env.REACT_APP_API_URL}/posts/message`, {
         headers: {
           authorization: { 'Content-Type': 'application/json' },
         },
