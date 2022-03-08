@@ -49,11 +49,15 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
 
   const readHandler = () => {
     axios
-      .get('https://localhost/5500/posts/${uid}', {
-        headers: {
-          authorization: { 'Content-Type': 'application/json' },
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/posts/`,
+        // ${uid}`,
+        {
+          headers: {
+            authorization: { 'Content-Type': 'application/json' },
+          },
+        }
+      )
       .then(res => {
         setList({
           title: res.data.list.title,
