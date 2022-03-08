@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
-  //* 회원탈퇴 핸들러 만들기
+export default function Sidemenu({
+  isLogin,
+  userinfo,
+  handleLogout,
+  setShowWithdrawl,
+}) {
   const { nickname, title, email } = userinfo;
+  const history = useHistory();
 
   return (
     <div className="transition ease-in-out h-full w-screen">
@@ -81,6 +87,7 @@ export default function Sidemenu({ isLogin, userinfo, handleLogout }) {
                     </a>
                   </Link>
                   <a
+                    onClick={() => setShowWithdrawl(true)}
                     className="mt-0 flex-grow hover:text-white flex items-center p-2 my-6 transition-colors hover:bg-blue-600 duration-200 text-gray-800 rounded-lg"
                     href="#"
                   >

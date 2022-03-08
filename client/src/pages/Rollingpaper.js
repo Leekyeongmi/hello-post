@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import dummy from '../static/dummyData';
 import Message from '../components/Message';
 import Navbar from '../components/Navbar';
@@ -10,12 +10,19 @@ import axios from 'axios';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import image from '../doodle.svg';
+import WithdrawlNotification from '../components/WithdrawlNotification';
 
-export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
+export default function Rollingpaper({
+  isLogin,
+  userinfo,
+  handleLogout,
+  handleWithdrawl,
+}) {
   const [showWrite, setShowWrite] = useState(false);
   const [showSidemenu, setShowSidemenu] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const [ShowPdf, setShowPdf] = useState(false);
+  const [showPdf, setShowPdf] = useState(false);
+  const [showWithdrawl, setShowWithdrawl] = useState(false);
 
   useEffect(() => {
     readHandler();
@@ -83,9 +90,14 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
         ></img>
         <div className="mr-6 mx-5 my-7">
           <ul ref={printRef} className="grid grid-cols-6">
-            {list.map((a, index) => {
+            {list.map((message, index) => {
               return (
-                <Message array={list} list={a} index={index} key={index} />
+                <Message
+                  list={list}
+                  message={message}
+                  index={index}
+                  key={index}
+                />
               );
             })}
           </ul>
@@ -120,10 +132,11 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
               isLogin={isLogin}
               userinfo={userinfo}
               handleLogout={handleLogout}
+              setShowWithdrawl={setShowWithdrawl}
             ></Sidemenu>
           ) : null}
         </div>
-        {ShowPdf ? (
+        {showPdf ? (
           <PdfNotification
             onDownloadBtn={onDownloadBtn}
             setShowPdf={setShowPdf}
@@ -136,6 +149,12 @@ export default function Rollingpaper({ isLogin, userinfo, handleLogout }) {
           setShowNotification={setShowNotification}
           content="링크 복사가 완료되었습니다."
         ></Notification>
+      ) : null}
+      {showWithdrawl ? (
+        <WithdrawlNotification
+          handleWithdrawl={handleWithdrawl}
+          setShowWithdrawl={setShowWithdrawl}
+        ></WithdrawlNotification>
       ) : null}
     </div>
   );
