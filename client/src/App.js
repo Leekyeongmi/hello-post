@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -17,7 +17,7 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(1);
   const [userinfo, setUserinfo] = useState({
     title: 'Lets Rollingpaper!',
     total_message: 3,
@@ -37,7 +37,7 @@ function App() {
       })
       .then(respond => {
         console.log(respond.data);
-        if (respond.data.message === 'ok') {
+        if (respond.data.message === '유저 정보 조회 성공') {
           const { title, total_message, email, nickname } =
             respond.data.userinfo;
           setUserinfo({
@@ -59,7 +59,7 @@ function App() {
 
   const handleLogout = () => {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/signout`, {
+      .delete(`${process.env.REACT_APP_API_URL}/users/signout`, {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(res => {
@@ -76,9 +76,31 @@ function App() {
       .catch(error => console.log(error));
   };
 
-  useEffect(() => {
-    isAuthenticated();
-  }, []);
+  //* 회원탈퇴
+  const handleWithdrawl = () => {
+    console.log('clicked?');
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/users/properties`, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(res => {
+        axios.defaults.headers.common[
+          'authorization'
+        ] = `Bearer ${accessToken}`;
+        setUserinfo({
+          title: '',
+          total_message: '',
+          email: '',
+          nickname: '',
+        });
+        setIsLogin(false);
+        alert('정상적으로 처리되었습니다.');
+      });
+  };
+
+  // useEffect(() => {
+  //   isAuthenticated();
+  // }, []);
 
   return (
     <div>
@@ -102,6 +124,7 @@ function App() {
               isLogin={isLogin}
               userinfo={userinfo}
               handleLogout={handleLogout}
+              handleWithdrawl={handleWithdrawl}
             />
           </Route>
           <Route exact path="/">
