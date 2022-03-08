@@ -1,5 +1,8 @@
 const router = require('express').Router();
+console.log('✔ postsRouter called!');
 const { write, destroy, read, readAll } = require('../controller/posts');
+
+// posts/*
 
 // 메시지 작성, 삭제
 router.route('/message').post(write).delete(destroy);
