@@ -22,8 +22,8 @@ export default function Navbar({
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className="flex">
-              <h1 className="font-bold text-3xl text-white leading-tight cursor-pointer">
-                Lets Rollingpaper!
+              <h1 className="font-bold text-3xl text-white leading-tight">
+                롤링페이퍼 제목 : 나를 응원해줘!
               </h1>
               <button
                 type="button"
