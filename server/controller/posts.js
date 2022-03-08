@@ -1,11 +1,3 @@
-// postsController
-const {
-  readRollPaper,
-  createMessage,
-  readAllMessage,
-  deleteMessage,
-} = require('../data/postData');
-
 module.exports = {
   // 메시지 작성
   write: (req, res) => {},
