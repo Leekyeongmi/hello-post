@@ -13,7 +13,11 @@ export default function Signin({
 
   const [errMessage, setErrMessage] = useState('');
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (loginInfo.email && loginInfo.password) {
+      setErrMessage('');
+    }
+  });
 
   const handleInputValue = key => e => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
@@ -21,11 +25,8 @@ export default function Signin({
 
   const handleLogin = () => {
     const { email, password } = loginInfo;
-
     if (!email || !password) {
       return setErrMessage('아이디와 비밀번호를 모두 입력해주세요.');
-    } else {
-      setErrMessage('');
     }
 
     axios
@@ -40,18 +41,18 @@ export default function Signin({
         }
       )
       .then(res => {
-        setUserId(res.data.uid);
-        handleResponseSuccess(res.data.accessToken);
+        if (res.data.message === '로그인 성공') {
+          setUserId(res.data.uid);
+          handleResponseSuccess(res.data.accessToken);
+        } else {
+          setLoginInfo({
+            email: '',
+            password: '',
+          });
+        }
       })
       .catch(err => {
-        setLoginInfo({
-          email: '',
-          password: '',
-        });
-        // 상태코드 확인 필요
-        if (err.response.status === 401) {
-          alert('이름과 비밀번호를 정확히 입력해주세요!');
-        }
+        console.log(err);
       });
   };
 
