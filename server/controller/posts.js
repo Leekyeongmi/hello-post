@@ -39,7 +39,7 @@ module.exports = {
         });
       });
     }
-    // 로그인 된 유저 -> 사이드바 클릭 시 유저 정보까지 보여야 함
+    // 2) 로그인 된 유저 -> 사이드바 클릭 시 유저 정보까지 보여야 함
     else {
       const loginUser = isAuthorized(req);
 
