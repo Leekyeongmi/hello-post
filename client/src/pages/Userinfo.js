@@ -90,7 +90,7 @@ export default function Userinfo() {
       </div>
       <div className="w-1/2 h-screen shadow-lg">
         <img
-          className="object-cover h-screen md:block opacity-90"
+          className="object-cover h-screen md:block opacity-80"
           src="/img/userinfo.svg"
         />
       </div>

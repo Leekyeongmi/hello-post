@@ -1,16 +1,69 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Notification from '../components/Notification';
 
 export default function Signup() {
   const history = useHistory();
+  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg2, setErrorMsg2] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
+    confirm: '',
     nickname: '',
   });
+
+  const handleInputValue = key => e => {
+    setUserInfo({ ...userInfo, [key]: e.target.value });
+  };
+
+  // 비밀번호 일치 확인
+  const passwordMatch = () => {
+    const { password, confirm } = userInfo;
+    return password === confirm;
+  };
+
+  // 비밀번호 보안 강화
+  const strongPassword = str => {
+    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+      str
+    );
+  };
+
+  const passwordHandler = () => {
+    console.log(strongPassword(userInfo.password));
+    if (!strongPassword(userInfo.password)) {
+      setErrorMsg2(
+        '최소 8자 이상, 알파벳과 숫자 및 특수문자는 하나 이상 포함하세요.'
+      );
+    }
+    if (strongPassword(userInfo.password)) {
+      setErrorMsg2('');
+    }
+
+    if (!passwordMatch()) {
+      setErrorMsg('비밀번호가 일치하지 않습니다.');
+    } else {
+      setErrorMsg('');
+    }
+  };
+
+  useEffect(() => {
+    passwordHandler();
+  });
+
   const handleSignup = () => {
-    const { email, password, nickname } = userInfo;
+    const { email, password, confirm, nickname } = userInfo;
+    if (!passwordMatch() || !strongPassword(password)) {
+      return setShowNotification(true);
+    }
+
+    if (!email || !password || !confirm) {
+      return setShowNotification(true);
+    }
+
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/users/signup`,
@@ -28,9 +81,7 @@ export default function Signup() {
       })
       .catch(error => console.log(error));
   };
-  const handleInputValue = key => e => {
-    setUserInfo({ ...userInfo, [key]: e.target.value });
-  };
+
   return (
     <div className="flex flex-wrap w-full">
       <div className="flex flex-col w-full md:w-1/2">
@@ -48,52 +99,48 @@ export default function Signup() {
               </label>
               <input
                 type="text"
-                id="required-email"
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                 name="email"
                 placeholder="email"
-                onChange={() => handleInputValue('email')}
+                onChange={handleInputValue('email')}
               />
             </div>
-            <div className="mb-3 relative">
+            <div className="mb-1 relative">
               <label htmlFor="required-email" className="text-gray-700 mt-10">
                 Password
                 <span className="text-red-500 required-dot"> *</span>
               </label>
               <input
                 type="password"
-                id="required-email"
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                 name="password"
                 placeholder="password"
-                onChange={() => handleInputValue('password')}
+                onChange={handleInputValue('password')}
               />
             </div>
-            <div className="mb-3 relative">
-              <label htmlFor="required-email" className="text-gray-700 mt-10">
+            <span className="text-red-500 text-sm">{errorMsg2}</span>
+            <div className="mb-1 relative">
+              <label className="text-gray-700 mt-10">
                 Confirm Password
                 <span className="text-red-500 required-dot"> *</span>
               </label>
               <input
                 type="password"
-                id="required-email"
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                 name="password"
                 placeholder="password"
-                onChange={() => handleInputValue('password')}
+                onChange={handleInputValue('confirm')}
               />
             </div>
+            <span className="text-red-500 text-sm">{errorMsg}</span>
             <div className="mb-3 relative ">
-              <label htmlFor="required-email" className="text-gray-700">
-                Name
-              </label>
+              <label className="text-gray-700">Name</label>
               <input
                 type="text"
-                id="required-email"
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                 name="name"
                 placeholder="name"
-                onChange={() => handleInputValue('email')}
+                onChange={handleInputValue('nickname')}
               />
             </div>
             <button
@@ -111,6 +158,12 @@ export default function Signup() {
           src="/img/signup.svg"
         />
       </div>
+      {showNotification ? (
+        <Notification
+          setShowNotification={setShowNotification}
+          content="올바른 사용자 정보를 입력해주세요."
+        ></Notification>
+      ) : null}
     </div>
   );
 }
