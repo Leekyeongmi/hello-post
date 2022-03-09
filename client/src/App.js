@@ -16,7 +16,7 @@ import './app.css';
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [userId, setUserId] = useState(1);
   const [userinfo, setUserinfo] = useState({
     title: 'Lets Rollingpaper!',
@@ -26,6 +26,17 @@ function App() {
   });
   const [accessToken, issueAccessToken] = useState(null);
   const history = useHistory();
+
+  // [TEST] 루트경로로 접속할 때 서버의 GET '/' 요청 처리를 위해 잠시 추가했습니다!
+  axios
+    .get(`process.env.REACT_APP_API_URL`)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  // [TEST]
 
   const isAuthenticated = () => {
     setIsLogin(true);
