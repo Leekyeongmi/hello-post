@@ -16,8 +16,8 @@ import './app.css';
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [userId, setUserId] = useState(1);
+  const [isLogin, setIsLogin] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [userinfo, setUserinfo] = useState({
     title: 'Lets Rollingpaper!',
     total_message: 3,
@@ -76,7 +76,6 @@ function App() {
       .catch(error => console.log(error));
   };
 
-  //* 회원탈퇴
   const handleWithdrawl = () => {
     console.log('clicked?');
     axios
@@ -117,7 +116,7 @@ function App() {
             <Signup isLogin={isLogin} />
           </Route>
           <Route exact path="/userinfo">
-            <Userinfo />
+            <Userinfo userinfo={userinfo} />
           </Route>
           <Route path="/posts">
             <Rollingpaper
