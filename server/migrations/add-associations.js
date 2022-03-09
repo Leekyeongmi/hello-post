@@ -2,6 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    console.console.log('✔add-associations.js: up()');
     // 1) Users: Posts = 1: 1
     // Users 테이블에 post_id 컬럼 추가
     await queryInterface.addColumn('Users', 'post_id', {

@@ -34,6 +34,7 @@ app.use(
 );
 
 app.get('/', (req, res) => {
+  console.log('✔ GET /');
   res.send('Hello From Server!😀');
 });
 

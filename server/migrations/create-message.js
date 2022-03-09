@@ -1,6 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
+    console.console.log('✔create-message.js: up()');
     await queryInterface.createTable('Messages', {
       id: {
         allowNull: false,
