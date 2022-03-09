@@ -19,7 +19,10 @@ export default function Userinfo({ userinfo }) {
           password: password,
           title: title,
         },
-        { headers: { 'Content-Type': 'application / json' } }
+        {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: { 'Content-Type': 'application / json' },
+        }
       )
       .then(respond => {
         if (respond.data.message === 'ok') {
