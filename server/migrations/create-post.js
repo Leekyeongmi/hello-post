@@ -1,6 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
+    console.console.log('✔create-post.js: up()');
     await queryInterface.createTable('Posts', {
       id: {
         allowNull: false,

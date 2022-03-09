@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // cli에서 모델 'User'로 생성했는데 테이블명은 'Users'
+    console.console.log('✔create-user.js: up()');
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,

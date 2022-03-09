@@ -6,7 +6,7 @@ const http = require('http');
 
 const { sequelize } = require('./models');
 
-// const postsRouter = require('./router/posts');
+const postsRouter = require('./router/posts');
 const usersRouter = require('./router/users');
 const app = express();
 
@@ -20,7 +20,6 @@ sequelize
   })
   .catch(err => {
     console.error('🚨 Fail: DB connection!', err);
-
   });
 
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
@@ -35,10 +34,27 @@ app.use(
 );
 
 app.get('/', (req, res) => {
-  res.status(200).send('ok');
+  console.log('✔ GET /');
+  res.send('Hello From Server!😀');
 });
-// app.use('/posts', postsRouter);
+
+app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
+
+// 랜딩페이지 접속 에러 시 처리
+app.use((req, res, next) => {
+  const err = new Error(`${req.method} ${req.url} Router Not Found`);
+  err.status = 404;
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    message: err.message,
+    error: process.env.NODE_ENV === 'production' ? {} : err,
+  });
+});
 
 const server = http.createServer(app);
 server.listen(app.get('port'), () => {

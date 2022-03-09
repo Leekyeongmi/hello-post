@@ -9,6 +9,8 @@ const {
   destroy,
 } = require('../controller/users');
 
+// users/*
+
 // 회원가입
 router.post('/signup', signup);
 
