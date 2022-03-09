@@ -22,6 +22,8 @@
     ],
     "rules": {
         "require-jsdoc": 0,
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "properties": "never",
+        "ignoreDestructuring": true
     }
 }
