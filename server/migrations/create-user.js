@@ -1,7 +1,6 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    console.console.log('✔create-user.js: up()');
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
@@ -21,11 +20,11 @@ module.exports = {
       available: {
         type: Sequelize.BOOLEAN,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },

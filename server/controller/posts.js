@@ -12,13 +12,13 @@ module.exports = {
 
     // owner_id(uid)로 post_id 찾기
     Post.findOne({
-      where: { user_id: owner_id },
+      where: { userId: owner_id },
     })
       .then(thePost => {
-        const post_id = thePost.id;
+        const postId = thePost.id;
 
         Message.create({
-          post_id,
+          postId,
           content: message,
           writer,
         });
@@ -38,7 +38,7 @@ module.exports = {
   // 롤링페이퍼 조회
   // posts/:uid
   read: async (req, res) => {
-    const user_id = req.params.uid;
+    const userId = req.params.uid;
     // console.log('😃req.params', req.params); // ✔uid로 넘어오는 것 확인
 
     // 1) 로그인 안 한 방문자
@@ -48,7 +48,7 @@ module.exports = {
 
     if (!token) {
       try {
-        const thePost = await Post.findOne({ where: { user_id } });
+        const thePost = await Post.findOne({ where: { userId } });
         const { id, title } = thePost;
 
         result.pid = id;
@@ -61,7 +61,7 @@ module.exports = {
       }
       try {
         const theMessage = Message.findAndCountAll({
-          where: { post_id: result.pid },
+          where: { postId: result.pid },
         });
         const { count, rows } = theMessage;
 
@@ -100,12 +100,12 @@ module.exports = {
     else {
       const loginUser = isAuthorized(req);
 
-      const { email, nickname, available, post_id } = loginUser;
+      const { email, nickname, available, postId } = loginUser;
 
-      Post.findOne({ where: { user_id } }).then(thePost => {
+      Post.findOne({ where: { userId } }).then(thePost => {
         const { id, title } = thePost;
 
-        Message.findAndCountAll({ where: { post_id: id } }).then(theMessage => {
+        Message.findAndCountAll({ where: { postId: id } }).then(theMessage => {
           const { count, rows } = theMessage;
 
           res.status(200).json({
@@ -115,9 +115,9 @@ module.exports = {
               total_message: count,
               // rows는 객체 배열: [{}, {}, {}]
               messages: rows.map(row => {
-                const { id, content, writer, created_at } = row;
+                const { id, content, writer, createdAt } = row;
 
-                return { id, content, writer, created_at };
+                return { id, content, writer, createdAt };
               }),
               uid: id,
               email,
