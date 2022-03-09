@@ -56,7 +56,7 @@ export default function Rollingpaper({
 
   const readHandler = () => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/posts/`, {
+      .get(`${process.env.REACT_APP_API_URL}/posts/${uid}`, {
         headers: {
           authorization: { 'Content-Type': 'application/json' },
         },
