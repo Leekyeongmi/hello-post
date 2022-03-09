@@ -7,6 +7,7 @@ export default function Signup() {
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState('');
   const [errorMsg2, setErrorMsg2] = useState('');
+  const [errorMsg3, setErrorMsg3] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: '',
@@ -33,7 +34,6 @@ export default function Signup() {
   };
 
   const passwordHandler = () => {
-    console.log(strongPassword(userInfo.password));
     if (!strongPassword(userInfo.password)) {
       setErrorMsg2(
         '최소 8자 이상, 알파벳과 숫자 및 특수문자는 하나 이상 포함하세요.'
@@ -56,13 +56,16 @@ export default function Signup() {
 
   const handleSignup = () => {
     const { email, password, confirm, nickname } = userInfo;
-    if (!passwordMatch() || !strongPassword(password)) {
-      return setShowNotification(true);
-    }
 
     if (!email || !password || !confirm) {
-      return setShowNotification(true);
+      return setErrorMsg3('필수항목을 모두 입력해주세요.');
     }
+
+    if (!passwordMatch() || !strongPassword(password)) {
+      return setErrorMsg3('사용자 정보를 올바르게 입력해주세요.');
+    }
+
+    setErrorMsg3('');
 
     axios
       .post(
@@ -75,8 +78,10 @@ export default function Signup() {
         { headers: { 'Content-Type': 'application / json' } }
       )
       .then(respond => {
-        if (respond.data.message === 'ok') {
+        if (respond.data.message === '회원가입 성공') {
           history.push('/');
+        } else {
+          setShowNotification(true);
         }
       })
       .catch(error => console.log(error));
@@ -133,15 +138,16 @@ export default function Signup() {
               />
             </div>
             <span className="text-red-500 text-sm">{errorMsg}</span>
-            <div className="mb-3 relative ">
+            <div className="relative ">
               <label className="text-gray-700">Name</label>
               <input
                 type="text"
-                className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                className="mb-5 rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                 name="name"
                 placeholder="name"
                 onChange={handleInputValue('nickname')}
               />
+              <span className="text-gray-800 text-base">{errorMsg3}</span>
             </div>
             <button
               onClick={handleSignup}
@@ -161,7 +167,7 @@ export default function Signup() {
       {showNotification ? (
         <Notification
           setShowNotification={setShowNotification}
-          content="사용자 정보를 모두 입력해주세요."
+          content="이미 가입된 사용자입니다."
         ></Notification>
       ) : null}
     </div>

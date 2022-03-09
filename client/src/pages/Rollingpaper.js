@@ -89,7 +89,7 @@ export default function Rollingpaper({
       ></Navbar>
       <main onClick={() => setShowSidemenu(false)}>
         <img
-          className="absolute bottom-5 left-1/4 w-1/2 opacity-10"
+          className="absolute bottom-5 left-1/4 w-1/2 opacity-40"
           src={image}
         ></img>
         <div className="mr-6 mx-5 my-7">
