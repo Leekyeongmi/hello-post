@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 
 export default function Message({ message, index, list }) {
-  const parsedDate = new Date(message.createdAt).toLocaleDateString('ko-kr');
+  const parsedDate = new Date(list.created_at).toLocaleDateString('ko-kr');
   return (
     <li>
       <div
         className={`${
           index % 7 === 0
-            ? `rotate-[3deg] bg-red-50 z-50`
+            ? `rotate-[3deg] bg-red-50 z-40`
             : index % 5 === 0
             ? `rotate-[10deg] bg-lime-50 z-40`
             : index % 4 === 0
             ? `rotate-[-10deg] bg-amber-100 z-30`
             : index % 2 === 0
-            ? `rotate-[-15deg] bg-violet-50 z-20`
+            ? `rotate-[-8deg] bg-violet-50 z-20`
             : `rotate-[3deg] bg-gray-50 z-10`
-        } hover:z-50 overflow-hidden hover:overflow-y-auto opacity-90 shadow-2xl w-64 h-64 rounded-2xl mx-auto my-auto relative duration-1000 ease-in-out mt-8`}
+        } hover:z-50 overflow-hidden hover:overflow-y-auto opacity-90 shadow-2xl w-64 h-64 rounded-2xl mx-auto my-auto relative duration-1000 ease-in-out`}
       >
         {index === list.length - 1 ? (
           <span className="absolute bg-red-500 top-0 right-0 text-white text-xs">

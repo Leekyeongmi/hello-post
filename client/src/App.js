@@ -127,7 +127,7 @@ function App() {
             <Signup isLogin={isLogin} />
           </Route>
           <Route exact path="/userinfo">
-            <Userinfo userinfo={userinfo} />
+            <Userinfo userinfo={userinfo} accessToken={accessToken} />
           </Route>
           <Route path="/posts">
             <Rollingpaper
@@ -135,6 +135,7 @@ function App() {
               userinfo={userinfo}
               handleLogout={handleLogout}
               handleWithdrawl={handleWithdrawl}
+              location={location}
             />
           </Route>
           <Route exact path="/">
