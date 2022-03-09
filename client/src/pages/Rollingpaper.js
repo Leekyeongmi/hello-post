@@ -40,9 +40,7 @@ export default function Rollingpaper({
       .catch(error => console.log(error));
   };
 
-  const [list, setList] = useState(dummy);
-
-  useState({
+  const [list, setList] = useState({
     title: '',
     total_message: '',
     messages: [
@@ -56,15 +54,11 @@ export default function Rollingpaper({
 
   const readHandler = () => {
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/posts/`,
-        // ${uid}`,
-        {
-          headers: {
-            authorization: { 'Content-Type': 'application/json' },
-          },
-        }
-      )
+      .get(`${process.env.REACT_APP_API_URL}/posts/${uid}`, {
+        headers: {
+          authorization: { 'Content-Type': 'application/json' },
+        },
+      })
       .then(res => {
         setList({
           title: res.data.list.title,
@@ -81,7 +75,7 @@ export default function Rollingpaper({
   return (
     <div className="h-screen bg-amber-50 overflow-x-hidden">
       <Navbar
-        tt={list.length}
+        list={list.messages}
         showSidemenu={showSidemenu}
         setShowSidemenu={setShowSidemenu}
         setShowNotification={setShowNotification}
@@ -89,12 +83,12 @@ export default function Rollingpaper({
       ></Navbar>
       <main onClick={() => setShowSidemenu(false)}>
         <img
-          className="absolute bottom-5 left-1/4 w-1/2 opacity-40"
+          className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
           src={image}
         ></img>
         <div className="mr-6 mx-5 my-7">
           <ul ref={printRef} className="grid grid-cols-6">
-            {list.map((message, index) => {
+            {list.messages.map((message, index) => {
               return (
                 <Message
                   list={list}

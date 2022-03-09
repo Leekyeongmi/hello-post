@@ -41,8 +41,8 @@ export default function Signin({
         }
       )
       .then(res => {
-        if (res.data.message === '로그인 성공') {
-          setUserId(res.data.uid);
+        if (res.data.message === 'ok') {
+          setUserId(res.data.data.uid);
           handleResponseSuccess(res.data.accessToken);
         } else {
           setLoginInfo({
