@@ -30,7 +30,7 @@ export default function Navbar({
                 className="text-md text-white text-6xl relative ml-5"
               >
                 <span className="animate-[bounce_1s_ease-in-out_infinite] w-5 h-5 rounded-full absolute right-2 leading text-sm bg-lime-500">
-                  {list.length}
+                  {list.total_message}
                 </span>
                 <svg
                   width="10"

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 export default function Message({ message, index, list }) {
-  const parsedDate = new Date(list.created_at).toLocaleDateString('ko-kr');
+  const parsedDate = new Date(message.createdAt).toLocaleDateString('ko-kr');
   return (
     <li>
       <div
@@ -25,7 +25,7 @@ export default function Message({ message, index, list }) {
         <div className="p-5">
           <div className="mb-1 flex justify-between">
             <span className="text-base text-gray-800 font-medium underline">
-              {message.username}
+              {message.writer}
             </span>
             <span className="text-gray-700 text-base">{parsedDate}</span>
           </div>

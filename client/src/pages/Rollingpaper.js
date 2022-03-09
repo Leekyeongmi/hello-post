@@ -1,4 +1,3 @@
-// import dummy from '../static/dummyData';
 import { useEffect, useState, useRef } from 'react';
 import Message from '../components/Message';
 import Navbar from '../components/Navbar';
@@ -62,8 +61,9 @@ export default function Rollingpaper({
         },
       })
       .then(res => {
-        if (res.data.messages === 'ok') {
-          const { title, total_message, messages } = res.data.list;
+        // console.log(res.data.data);
+        if (res.data.message === 'ok') {
+          const { title, total_message, messages } = res.data.data;
           setList({
             title,
             total_message,
@@ -78,7 +78,7 @@ export default function Rollingpaper({
   return (
     <div className="h-screen bg-amber-50 overflow-x-hidden">
       <Navbar
-        list={list.messages}
+        list={list}
         showSidemenu={showSidemenu}
         setShowSidemenu={setShowSidemenu}
         setShowNotification={setShowNotification}
@@ -94,7 +94,7 @@ export default function Rollingpaper({
             {list.messages.map((message, index) => {
               return (
                 <Message
-                  list={list.messages}
+                  list={list}
                   message={message}
                   index={index}
                   key={index}
@@ -124,6 +124,7 @@ export default function Rollingpaper({
         </button>
         {showWrite ? (
           <WriteMessage
+            readHandler={readHandler}
             location={location}
             setShowWrite={setShowWrite}
           ></WriteMessage>
