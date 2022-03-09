@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Notification from './Notification';
+// import Notification from './Notification';
 
-export default function WriteMessage({ setShowWrite, location }) {
+export default function WriteMessage({ setShowWrite, location, readHandler }) {
   const [msg, setMsg] = useState({
     owner_id: location.pathname.slice(7),
     message: '',
     writer: '',
   });
 
-  const [showNotification, setShowNotification] = useState(false);
+  // const [showNotification, setShowNotification] = useState(false);
 
   const handleInputValue = key => e => {
     setMsg({ ...msg, [key]: e.target.value });
@@ -32,10 +32,10 @@ export default function WriteMessage({ setShowWrite, location }) {
         }
       )
       .then(res => {
-        if (res.data.message === '메세지 작성 완료') {
-          setShowNotification(true);
+        if (res.data.message === '메시지 작성 완료') {
+          alert('메시지 작성이 완료되었습니다.');
           setShowWrite(false);
-          //! 롤링페이퍼 출력 화면이 재렌더링이 되도록 한다.
+          readHandler();
         }
       });
   };
@@ -94,14 +94,15 @@ export default function WriteMessage({ setShowWrite, location }) {
               </button>
             </div>
           </div>
+          {/* {showNotification ? (
+            <Notification
+              content="메시지 작성이 완료되었습니다."
+              setShowNotification={setShowNotification}
+            ></Notification>
+          ) : null} */}
         </div>
       </div>
-      {showNotification ? (
-        <Notification
-          content="메시지 작성이 완료되었습니다."
-          setShowNotification={setShowNotification}
-        ></Notification>
-      ) : null}
+
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </>
   );

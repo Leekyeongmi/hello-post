@@ -75,10 +75,11 @@ export default function Signup() {
           password,
           nickname,
         },
-        { headers: { 'Content-Type': 'application / json' } }
+        { headers: { 'Content-Type': 'application/json' } }
       )
       .then(respond => {
-        if (respond.data.message === '회원가입 성공') {
+        if (respond.data.message === '회원가입성공!') {
+          alert('가입이 성공적으로 완료되었습니다.');
           history.push('/');
         } else {
           setShowNotification(true);
