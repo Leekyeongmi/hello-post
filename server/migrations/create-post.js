@@ -1,7 +1,6 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    console.console.log('✔create-post.js: up()');
     await queryInterface.createTable('Posts', {
       id: {
         allowNull: false,
@@ -12,11 +11,11 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },

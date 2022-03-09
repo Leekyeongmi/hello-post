@@ -8,27 +8,50 @@ module.exports = {
   signup: async (req, res) => {
     const { email, password, nickname } = req.body;
 
+    if (!email || !password || !nickname) {
+      console.log('🤢req.body', req.body);
+      return res
+        .status(400)
+        .json({ message: '회원정보를 요청객체 바디에서 찾을 수 없습니다!' });
+    }
+
     // 👀 Users.post_id가 auto_increment가 안되서 임의로 지정...
     const hexPostId = crypto.randomBytes(3).toString('hex');
     const decPostId = parseInt(hexPostId, 16);
 
-    const [newUser, created] = await User.findOrCreate({
-      where: { email, password, nickname, available: true, post_id: decPostId },
-    });
+    try {
+      const [newUser, created] = await User.findOrCreate({
+        where: {
+          email,
+          password,
+          nickname,
+          available: true,
+          postId: decPostId,
+        },
+      });
 
-    console.log('✔ 새로운 회원 생성: ', newUser.get({ plain: true }));
+      if (created) {
+        console.log('✔ 새로운 회원 생성: ', newUser.get({ plain: true }));
+        const accessToken = createAccessToken({ email, nickname });
+        console.log('🤢 토큰 발급 완료 :', accessToken);
 
-    if (created) {
-      const accessToken = createAccessToken({ email, nickname });
+        // 👀 토큰을 응답 헤더에 심어야 하나?
+        // req.headers['authorization'] = `Bearer ${accessToken}`;
 
-      // 👀 토큰을 응답 헤더에 심어야 하나?
-      req.headers['authorization'] = `Bearer ${accessToken}`;
-
-      res.status(201).json({ message: 'ok', data: null });
-    } else {
-      return res
-        .status(409)
-        .json({ message: '이미 가입된 이메일 입니다.', data: null });
+        // 일단, 바디에 accessToken이라는 이름으로 보내보자!
+        res.status(201).json({
+          message: '회원가입성공!',
+          accessToken,
+          data: { uid: newUser.id },
+        });
+      } else {
+        return res
+          .status(409)
+          .json({ message: '이미 가입된 이메일 입니다.', data: null });
+      }
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({ message: '회원 가입 처리 중 서버 에러' });
     }
   },
   // 로그인
@@ -47,9 +70,9 @@ module.exports = {
       if (!theUser) {
         return res.status(403).json({ message: 'Token expired', data: null });
       }
-      const { id, email, nickname, available, post_id } = theUser;
+      const { id, email, nickname, available, postId } = theUser;
 
-      const title = Post.findOne({ where: { id: post_id } });
+      const title = Post.findOne({ where: { id: postId } });
 
       const accessToken = createAccessToken(theUser);
 
@@ -61,7 +84,7 @@ module.exports = {
           email,
           nickname,
           available,
-          post_id,
+          postId,
           title,
         },
       });
@@ -91,12 +114,12 @@ module.exports = {
     // 헤더에서 토큰 찾아다가 디코딩한 유저 정보
     const loginUser = isAuthorized(req);
 
-    const { id, email, nickname, post_id } = loginUser;
+    const { id, email, nickname, postId } = loginUser;
 
-    Post.findOne({ where: { user_id: id } }).then(thePost => {
+    Post.findOne({ where: { userId: id } }).then(thePost => {
       const { title } = thePost;
 
-      Message.findAndCountAll({ where: { post_id } }).then(theMessage => {
+      Message.findAndCountAll({ where: { postId } }).then(theMessage => {
         const { count } = theMessage;
 
         res.status(200).json({
@@ -126,7 +149,7 @@ module.exports = {
     }
 
     // id를 쓰면 아래 Post 조회할 때 못써서 email로 대체
-    const { id, email, post_id } = decoded;
+    const { id, email, postId } = decoded;
     // req.body에 nickname
     const theUser = await User.findOne({ where: { email } });
     theUser.set({
@@ -136,7 +159,7 @@ module.exports = {
 
     // 👀 이제 보니까 title을 회원정보에서 변경해줘야 하는 거라면
     // 애초에 Users 테이블에 넣어주는 게 좋았겠어
-    const thePost = await Post.findOne({ where: { id: post_id } });
+    const thePost = await Post.findOne({ where: { id: postId } });
     thePost.set({
       title: req.body.title,
     });

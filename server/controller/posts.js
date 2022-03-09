@@ -12,13 +12,13 @@ module.exports = {
 
     // owner_id(uid)로 post_id 찾기
     Post.findOne({
-      where: { user_id: owner_id },
+      where: { userId: owner_id },
     })
       .then(thePost => {
-        const post_id = thePost.id;
+        const postId = thePost.id;
 
         Message.create({
-          post_id,
+          postId,
           content: message,
           writer,
         });
@@ -37,66 +37,46 @@ module.exports = {
 
   // 롤링페이퍼 조회
   // posts/:uid
-  read: (req, res) => {
-    const user_id = req.params.uid;
+  read: async (req, res) => {
+    const userId = req.params.uid;
+    const result = {};
 
-    // 1) 로그인 안 한 방문자
-    const token = isAuthorized(req);
+    try {
+      const thePost = await Post.findOne({ where: { userId } });
+      const { id, title } = thePost;
 
-    if (!token) {
-      Post.findOne({ where: { user_id } }).then(thePost => {
-        const { id, title } = thePost;
+      result.pid = id;
+      result.ptitle = title;
+    } catch (e) {
+      console.log('userId로 post 조회 실패', e);
+      return res
+        .status(500)
+        .json({ message: '없는 사용자의 롤링페이퍼 입니다', data: null });
+    }
+    try {
+      const theMessage = await Message.findAndCountAll({
+        where: { postId: result.pid },
+      });
+      const { count, rows } = theMessage;
 
-        Message.findAndCountAll({ where: { post_id: id } }).then(theMessage => {
-          const { count, rows } = theMessage;
-
-          res.status(200).json({
-            message: 'ok',
-            data: {
-              title,
-              total_message: count,
-              // rows는 객체 배열: [{}, {}, {}]
-              messages: rows.map(row => {
-                const { id, content, writer, created_at } = row;
-
-                return { id, content, writer, created_at };
-              }),
-            },
-          });
-        });
+      result.msgCount = count;
+      result.msgList = rows;
+    } catch (e) {
+      console.log('postId로 message 조회 실패', e);
+      return res.status(500).json({
+        message: '해당 롤링페이퍼의 메시지를 불러오지 못했습니다.',
+        data: null,
       });
     }
-    // 2) 로그인 된 유저 -> 사이드바 클릭 시 유저 정보까지 보여야 함
-    else {
-      const loginUser = isAuthorized(req);
-
-      const { email, nickname, available, post_id } = loginUser;
-
-      Post.findOne({ where: { user_id } }).then(thePost => {
-        const { id, title } = thePost;
-
-        Message.findAndCountAll({ where: { post_id: id } }).then(theMessage => {
-          const { count, rows } = theMessage;
-
-          res.status(200).json({
-            message: 'ok',
-            data: {
-              title,
-              total_message: count,
-              // rows는 객체 배열: [{}, {}, {}]
-              messages: rows.map(row => {
-                const { id, content, writer, created_at } = row;
-
-                return { id, content, writer, created_at };
-              }),
-              uid: id,
-              email,
-              nickname,
-            },
-          });
-        });
-      });
-    }
+    const { ptitle, msgCount, msgList } = result;
+    res.status(200).json({
+      message: 'ok',
+      data: {
+        title: ptitle,
+        total_message: msgCount,
+        messages: msgList,
+      },
+    });
   },
 
   // 개별 메시지 클릭 시 전체 메시지 목록 조회
