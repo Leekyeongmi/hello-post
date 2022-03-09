@@ -1,34 +1,42 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Notification from './Notification';
 
-export default function WriteMessage({ setShowWrite }) {
-  // 메세지 작성자, 이름 스테이트
-  // 메세지 인풋 핸들러
-  // 작성 내용 서버에 전송하기
-
+export default function WriteMessage({ setShowWrite, location }) {
   const [msg, setMsg] = useState({
-    owner_id: '',
+    owner_id: location.pathname.slice(7),
     message: '',
     writer: '',
   });
+
+  const [showNotification, setShowNotification] = useState(false);
 
   const handleInputValue = key => e => {
     setMsg({ ...msg, [key]: e.target.value });
   };
 
   const SendMessage = () => {
+    const { owner_id, message, writer } = msg;
     axios
-      .post(`${process.env.REACT_APP_API_URL}/posts/message`, {
-        headers: {
-          authorization: { 'Content-Type': 'application/json' },
+      .post(
+        `${process.env.REACT_APP_API_URL}/posts/message`,
+        {
+          owner_id,
+          message,
+          writer,
         },
-      })
+        {
+          headers: {
+            authorization: { 'Content-Type': 'application/json' },
+          },
+        }
+      )
       .then(res => {
-        setMsg({
-          owner_id: res.data.msg.owner_id,
-          message: res.data.msg.message,
-          writer: res.data.msg.writer,
-        });
+        if (res.data.message === '메세지 작성 완료') {
+          setShowNotification(true);
+          setShowWrite(false);
+          //! 롤링페이퍼 출력 화면이 재렌더링이 되도록 한다.
+        }
       });
   };
   return (
@@ -76,7 +84,6 @@ export default function WriteMessage({ setShowWrite }) {
                 ></textarea>
               </div>
             </div>
-            {/* footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="block w-full bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-2 px-4 rounded-lg text-lg text-white font-bold uppercase"
@@ -89,6 +96,12 @@ export default function WriteMessage({ setShowWrite }) {
           </div>
         </div>
       </div>
+      {showNotification ? (
+        <Notification
+          content="메시지 작성이 완료되었습니다."
+          setShowNotification={setShowNotification}
+        ></Notification>
+      ) : null}
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </>
   );

@@ -1,31 +1,38 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Notification from '../components/Notification';
 
-export default function Userinfo({ userinfo }) {
+axios.defaults.withCredentials = true;
+
+export default function Userinfo({ userinfo, accessToken }) {
   const history = useHistory();
   const [userInfo, setUserInfo] = useState({
     password: '',
     nickname: userinfo.nickname,
     title: userinfo.title,
   });
+  const [showNotification, setShowNotification] = useState(false);
   const handleUserinfo = () => {
-    const { email, password, title } = userInfo;
+    const { nickname, password, title } = userInfo;
     axios
       .patch(
         `${process.env.REACT_APP_API_URL}/users/properties`,
         {
-          nickname: email,
+          nickname: nickname,
           password: password,
           title: title,
         },
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          headers: { 'Content-Type': 'application / json' },
+          headers: {
+            authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application / json',
+          },
         }
       )
       .then(respond => {
         if (respond.data.message === 'ok') {
+          setShowNotification(true);
           history.push('/');
         }
       })
@@ -49,7 +56,7 @@ export default function Userinfo({ userinfo }) {
                 value={userInfo.nickname}
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                 placeholder="name"
-                onChange={handleInputValue('email')}
+                onChange={handleInputValue('nickname')}
               />
             </div>
             <div className="mb-3 relative">
@@ -95,6 +102,12 @@ export default function Userinfo({ userinfo }) {
           src="/img/userinfo.svg"
         />
       </div>
+      {showNotification ? (
+        <Notification
+          content="회원 정보 수정이 완료되었습니다."
+          setShowNotification={setShowNotification}
+        ></Notification>
+      ) : null}
     </div>
   );
 }

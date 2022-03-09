@@ -1,11 +1,12 @@
+// import dummy from '../static/dummyData';
 import { useEffect, useState, useRef } from 'react';
-import dummy from '../static/dummyData';
 import Message from '../components/Message';
 import Navbar from '../components/Navbar';
 import WriteMessage from '../components/WriteMessage';
 import Sidemenu from '../components/Sidemenu';
 import Notification from '../components/Notification';
 import PdfNotification from '../components/PdfNotification';
+import LoadingIndicator from '../components/LoadingIndicator';
 import axios from 'axios';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
@@ -17,12 +18,14 @@ export default function Rollingpaper({
   userinfo,
   handleLogout,
   handleWithdrawl,
+  location,
 }) {
   const [showWrite, setShowWrite] = useState(false);
   const [showSidemenu, setShowSidemenu] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
   const [showWithdrawl, setShowWithdrawl] = useState(false);
+  const [loadingIndicator, setLoadingIndicator] = useState(true);
 
   useEffect(() => {
     readHandler();
@@ -47,29 +50,29 @@ export default function Rollingpaper({
       {
         content: '',
         writer: '',
-        created_at: new Date(),
+        created_at: '',
       },
     ],
   });
-
   const readHandler = () => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/posts/${uid}`, {
+      .get(`${process.env.REACT_APP_API_URL}${location.pathname}`, {
         headers: {
           authorization: { 'Content-Type': 'application/json' },
         },
       })
       .then(res => {
-        setList({
-          title: res.data.list.title,
-          total_message: res.data.list.total_message,
-          messages: {
-            content: res.data.list.messages.content,
-            writer: res.data.list.messages.writer,
-            created_at: res.data.list.messages.created_at,
-          },
-        });
-      });
+        if (res.data.messages === 'ok') {
+          const { title, total_message, messages } = res.data.list;
+          setList({
+            title,
+            total_message,
+            messages,
+          });
+          setLoadingIndicator(false);
+        }
+      })
+      .catch(error => console.log(error));
   };
 
   return (
@@ -86,12 +89,12 @@ export default function Rollingpaper({
           className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
           src={image}
         ></img>
-        <div className="mr-6 mx-5 my-7">
+        <div className="mr-12 mx-8 mt-14">
           <ul ref={printRef} className="grid grid-cols-6">
             {list.messages.map((message, index) => {
               return (
                 <Message
-                  list={list}
+                  list={list.messages}
                   message={message}
                   index={index}
                   key={index}
@@ -120,7 +123,10 @@ export default function Rollingpaper({
           </svg>
         </button>
         {showWrite ? (
-          <WriteMessage setShowWrite={setShowWrite}></WriteMessage>
+          <WriteMessage
+            location={location}
+            setShowWrite={setShowWrite}
+          ></WriteMessage>
         ) : null}
       </main>
       <div>
@@ -154,6 +160,7 @@ export default function Rollingpaper({
           setShowWithdrawl={setShowWithdrawl}
         ></WithdrawlNotification>
       ) : null}
+      {loadingIndicator ? <LoadingIndicator></LoadingIndicator> : null}
     </div>
   );
 }
