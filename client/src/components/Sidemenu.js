@@ -12,7 +12,7 @@ export default function Sidemenu({
 
   return (
     <div className="transition ease-in-out h-full w-screen">
-      <div className="fixed inset-y-0 right-5 z-50 flex rounded-3xl bg-amber-50 shadow-2xl mt-64 mb-4 border-solid border-0 hover: ring-amber-100 hover:ring-2 transition-all">
+      <div className="fixed inset-y-0 right-5 z-50 flex rounded-3xl bg-amber-50 shadow-2xl mt-64 mb-4 border-solid border-0 hover: ring-blue-400 hover:ring-2 transition-all">
         <div className="flex flex-col sm:flex-row sm:justify-around">
           <div className="w-80">
             <div className="flex items-center justify-start mx-6 mt-7">

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 export default function Navbar({
-  tt,
+  list,
   setShowSidemenu,
   setShowNotification,
   setShowPdf,
@@ -23,14 +23,14 @@ export default function Navbar({
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className="flex">
               <h1 className="font-bold text-3xl text-white leading-tight">
-                롤링페이퍼 제목 : 나를 응원해줘!
+                {`롤링페이퍼 제목 : ${list.title}`}
               </h1>
               <button
                 type="button"
                 className="text-md text-white text-6xl relative ml-5"
               >
                 <span className="animate-[bounce_1s_ease-in-out_infinite] w-5 h-5 rounded-full absolute right-2 leading text-sm bg-lime-500">
-                  {tt}
+                  {list.length}
                 </span>
                 <svg
                   width="10"
