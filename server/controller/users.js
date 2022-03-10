@@ -55,41 +55,37 @@ module.exports = {
     }
   },
   // 로그인
-  signin: (req, res) => {
-    const decoded = isAuthorized(req);
-
-    if (!decoded) {
-      return res.status(401).json({ message: 'Unauthorized', data: null });
-    }
-    // decoded data
+  signin: async (req, res) => {
+    console.log('😁 req', req.body);
     const { email, password } = req.body;
 
-    User.findOne({
+    const theUser = await User.findOne({
       where: { email, password },
-    }).then(theUser => {
-      if (!theUser) {
-        return res.status(403).json({ message: 'Token expired', data: null });
-      }
-      const { id, email, nickname, available, postId } = theUser;
-
-      const title = Post.findOne({ where: { id: postId } });
-
-      const accessToken = createAccessToken(theUser);
-
-      res.status(200).json({
-        message: 'ok',
-        data: {
-          accessToken,
-          uid: id,
-          email,
-          nickname,
-          available,
-          postId,
-          title,
-        },
-      });
-      // 이후 posts/uid로 리디렉션
     });
+
+    if (!theUser) {
+      return res
+        .status(404)
+        .json({ message: '가입된 유저가 없습니다.', data: null });
+    }
+
+    // 가입된 유저라면, { 액세스토큰, 성공메시지, uid } 응답으로 보내주기
+    // 로그인 성공 시, 해당 유저의 롤페 화면으로 리디렉션
+    // + 사이드바 클릭했을 때 이 사람의 정보
+
+    console.log('💥 회원 정보', theUser);
+    const { id } = theUser.dataValues; // User.id
+
+    const accessToken = createAccessToken(theUser.dataValues);
+
+    res.status(200).json({
+      message: 'ok',
+      accessToken,
+      data: {
+        uid: id,
+      },
+    });
+    // 이후 posts/uid로 리디렉션
   },
 
   // 로그아웃
