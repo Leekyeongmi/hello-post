@@ -1,4 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
+import image from '../doodle.svg';
 import Message from '../components/Message';
 import Navbar from '../components/Navbar';
 import WriteMessage from '../components/WriteMessage';
@@ -6,10 +10,6 @@ import Sidemenu from '../components/Sidemenu';
 import Notification from '../components/Notification';
 import PdfNotification from '../components/PdfNotification';
 import LoadingIndicator from '../components/LoadingIndicator';
-import axios from 'axios';
-import domtoimage from 'dom-to-image';
-import { saveAs } from 'file-saver';
-import image from '../doodle.svg';
 import WithdrawlNotification from '../components/WithdrawlNotification';
 
 export default function Rollingpaper({
@@ -25,6 +25,17 @@ export default function Rollingpaper({
   const [showPdf, setShowPdf] = useState(false);
   const [showWithdrawl, setShowWithdrawl] = useState(false);
   const [loadingIndicator, setLoadingIndicator] = useState(true);
+  const [list, setList] = useState({
+    title: '',
+    total_message: '',
+    messages: [
+      {
+        content: '',
+        writer: '',
+        created_at: '',
+      },
+    ],
+  });
 
   useEffect(() => {
     readHandler();
@@ -42,18 +53,8 @@ export default function Rollingpaper({
       .catch(error => console.log(error));
   };
 
-  const [list, setList] = useState({
-    title: '',
-    total_message: '',
-    messages: [
-      {
-        content: '',
-        writer: '',
-        created_at: '',
-      },
-    ],
-  });
   const readHandler = () => {
+    setLoadingIndicator(true);
     axios
       .get(`${process.env.REACT_APP_API_URL}${location.pathname}`, {
         headers: {
@@ -61,7 +62,6 @@ export default function Rollingpaper({
         },
       })
       .then(res => {
-        // console.log(res.data.data);
         if (res.data.message === 'ok') {
           const { title, total_message, messages } = res.data.data;
           setList({
@@ -86,7 +86,7 @@ export default function Rollingpaper({
       ></Navbar>
       <main onClick={() => setShowSidemenu(false)}>
         <img
-          className="absolute bottom-5 left-1/4 w-1/2 opacity-20"
+          className="absolute bottom-5 left-1/4 w-1/2 opacity-10"
           src={image}
         ></img>
         <div className="mr-12 mx-8 mt-14">

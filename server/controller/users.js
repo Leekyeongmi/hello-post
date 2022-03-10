@@ -68,7 +68,7 @@ module.exports = {
 
     if (!theUser) {
       return res
-        .status(404)
+        .status(200)
         .json({ message: '가입된 유저가 없습니다.', data: null });
     }
 
@@ -101,7 +101,7 @@ module.exports = {
     //     .status(401)
     //     .json({ message: '로그인 되지 않은 상태입니다.', data: null });
     // }
-    res.status(205).json({ message: '로그아웃 성공', data: null });
+    res.status(200).json({ message: '로그아웃 성공', data: null });
   },
   // GET users/:uid
 
@@ -111,8 +111,8 @@ module.exports = {
   // API 경로가 비효율적으로 설계됐구나...
   read: async (req, res) => {
     // 헤더에서 토큰 찾아다가 디코딩한 유저 정보
-    const userId = req.params.uid;
 
+    const userId = req.params.uid;
     const loginUser = isAuthorized(req);
 
     if (!loginUser) {
@@ -187,7 +187,7 @@ module.exports = {
     // 👀 이제 보니까 title을 회원정보에서 변경해줘야 하는 거라면
     // 애초에 Users 테이블에 넣어주는 게 좋았겠어
     const thePost = await Post.findOne({ where: { id: 4 } });
-    
+
     console.log('❤ BEFORE', thePost.dataValues);
     thePost.dataValues.title = req.body.title;
     await thePost.save();
