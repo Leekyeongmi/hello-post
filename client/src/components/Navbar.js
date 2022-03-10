@@ -16,6 +16,8 @@ export default function Navbar({
     e.target.focus();
   };
 
+  // console.log(list);
+
   return (
     <>
       <nav className="top-5 relative flex flex-wrap items-center justify-between px-2 py-3 bg-blue-600 mx-3 rounded-full">

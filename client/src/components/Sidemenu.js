@@ -8,6 +8,7 @@ export default function Sidemenu({
   setShowWithdrawl,
 }) {
   const { nickname, title, email } = userinfo;
+  console.log(userinfo);
   const history = useHistory();
 
   return (
@@ -16,7 +17,11 @@ export default function Sidemenu({
         <div className="flex flex-col sm:flex-row sm:justify-around">
           <div className="w-80">
             <div className="flex items-center justify-start mx-6 mt-7">
-              <img className="h-11 w-11 rounded-full" src="/img/doodle2.png" />
+              {isLogin ? (
+                <img className="h-11 w-11 rounded-full" src="/img/avatar.svg" />
+              ) : (
+                <img className="h-11 w-11 rounded-full" src="/img/cat.svg" />
+              )}
               <span className="text-gray-800 ml-4 text-xl font-bold uppercase">
                 Hello, {isLogin ? nickname : 'Guest'}!
               </span>
