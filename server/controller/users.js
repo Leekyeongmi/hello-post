@@ -65,7 +65,7 @@ module.exports = {
 
     if (!theUser) {
       return res
-        .status(404)
+        .status(200)
         .json({ message: '가입된 유저가 없습니다.', data: null });
     }
 
@@ -109,9 +109,9 @@ module.exports = {
   read: (req, res) => {
     // 헤더에서 토큰 찾아다가 디코딩한 유저 정보
     const loginUser = isAuthorized(req);
+    console.log('worked?');
 
     const { id, email, nickname, postId } = loginUser;
-
     Post.findOne({ where: { userId: id } }).then(thePost => {
       const { title } = thePost;
 
