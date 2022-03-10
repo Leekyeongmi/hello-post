@@ -3,6 +3,7 @@ const { sign, verify } = require('jsonwebtoken');
 
 module.exports = {
   createAccessToken: data => {
+    console.log('😎 토큰 발급 메소드 호출', data);
     return sign(data, process.env.ACCESS_SECRET, { expiresIn: '15s' });
   },
 
