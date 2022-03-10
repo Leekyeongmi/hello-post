@@ -26,7 +26,7 @@ export default function Userinfo({ userinfo, accessToken }) {
         {
           headers: {
             authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application / json',
+            'Content-Type': 'application/json',
           },
         }
       )
