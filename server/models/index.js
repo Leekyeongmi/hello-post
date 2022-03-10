@@ -16,6 +16,7 @@ if (config.use_env_variable) {
     host: config.host,
     dialect: 'mysql',
     port: config.port,
+    logging: false,
   });
 }
 
