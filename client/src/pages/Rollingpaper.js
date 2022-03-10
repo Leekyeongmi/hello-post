@@ -24,15 +24,15 @@ export default function Rollingpaper({
   const [showNotification, setShowNotification] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
   const [showWithdrawl, setShowWithdrawl] = useState(false);
-  const [loadingIndicator, setLoadingIndicator] = useState(true);
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [list, setList] = useState({
-    title: '',
-    total_message: '',
+    title: '나를 응원해줘!',
+    total_message: '1',
     messages: [
       {
-        content: '',
-        writer: '',
-        created_at: '',
+        content: 'ㅎㅎㅎ잘 할 수 있을거야! 힘내!',
+        writer: '수리',
+        created_at: '2022.3.9',
       },
     ],
   });
@@ -54,7 +54,7 @@ export default function Rollingpaper({
   };
 
   const readHandler = () => {
-    setLoadingIndicator(true);
+    // setLoadingIndicator(true);
     axios
       .get(`${process.env.REACT_APP_API_URL}${location.pathname}`, {
         headers: {
@@ -79,6 +79,7 @@ export default function Rollingpaper({
     <div className="h-screen bg-amber-50 overflow-x-hidden">
       <Navbar
         list={list}
+        userinfo={userinfo}
         showSidemenu={showSidemenu}
         setShowSidemenu={setShowSidemenu}
         setShowNotification={setShowNotification}
