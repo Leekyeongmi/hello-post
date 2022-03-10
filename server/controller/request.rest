@@ -2,19 +2,19 @@
 GET http://localhost:5500/
 Content-Type: application/json
 
-### uid: 1의 롤링페이퍼 조회
+### 롤링페이퍼 조회
 GET http://localhost:5500/posts/3
 
-###
+### 로그인
 POST http://localhost:5500/users/signin HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "kim@hello.com",
+    "email": "update@test.com",
     "password": "1111"
 }
 
-###
+### 회원가입 , *postId 입력 안됨
 POST http://localhost:5500/users/signup HTTP/1.1
 Content-Type: application/json
 
@@ -22,4 +22,34 @@ Content-Type: application/json
     "email": "ann@hello.com",
     "password": "1111",
     "nickname": "rollAnn",
+}
+
+### 로그아웃
+DELETE http://localhost:5500/users/signout HTTP/1.1
+Content-Type: application/json
+
+
+### *회원정보 조회
+GET http://localhost:5500/users/20 HTTP/1.1
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoidXBkYXRlQHRlc3QuY29tIiwicGFzc3dvcmQiOiIxMTExIiwibmlja25hbWUiOiLsoJXrs7TsobDtmozsiJjsoJXsmqkiLCJhdmFpbGFibGUiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjItMDMtMTBUMDY6NDc6NDkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDMtMTBUMDY6NDc6NDkuMDAwWiIsImlhdCI6MTY0Njg5NTc1MiwiZXhwIjoxNjQ3MTU0OTUyfQ.DBdGbtbVxdsp2l0spF_KUwoC8sx-Vd-d4R7t7K--JzI
+
+### *회원정보 수정
+PATCH http://localhost:5500/users/properties HTTP/1.1
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoidXBkYXRlQHRlc3QuY29tIiwicGFzc3dvcmQiOiIxMTExIiwibmlja25hbWUiOiLsoJXrs7TsobDtmozsiJjsoJXsmqkiLCJhdmFpbGFibGUiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjItMDMtMTBUMDY6NDc6NDkuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDMtMTBUMDY6NDc6NDkuMDAwWiIsImlhdCI6MTY0Njg5NTc1MiwiZXhwIjoxNjQ3MTU0OTUyfQ.DBdGbtbVxdsp2l0spF_KUwoC8sx-Vd-d4R7t7K--JzI
+
+{
+    "nickname": "이제 정보 수정도 된단다🎶",
+    "password": "9999",
+    "title": "정보수정성공"
+}
+
+### 회원탈퇴
+DELETE http://localhost:5500/users/properties HTTP/1.1
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJraW1AaGVsbG8uY29tIiwicGFzc3dvcmQiOiIxMTExIiwibmlja25hbWUiOiJyb2xsS2ltIiwiYXZhaWxhYmxlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDIyLTAzLTA3VDEzOjQ5OjE1LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTAzLTA3VDEzOjQ5OjE1LjAwMFoiLCJpYXQiOjE2NDY4ODkxODgsImV4cCI6MTY0Njg4OTIwM30.tpaTKs3TSvUVgDRmO8XozjctmL_65Cr6DZmv-UTRaJo
+
+{
+
 }
