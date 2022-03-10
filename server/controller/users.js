@@ -2,11 +2,14 @@ console.log('✔✔ usersController called!');
 const { createAccessToken, isAuthorized } = require('../utils/token');
 const { User, Post, Message } = require('../models');
 const crypto = require('crypto');
+const { runInNewContext } = require('vm');
 
 module.exports = {
   // 회원가입
   signup: async (req, res) => {
+    console.log('👀 회원가입 메소드 실행');
     const { email, password, nickname } = req.body;
+    console.log('👀 회원정보 req.body', req.body);
 
     if (!email || !password || !nickname) {
       console.log('🤢req.body', req.body);
@@ -32,7 +35,7 @@ module.exports = {
 
       if (created) {
         console.log('✔ 새로운 회원 생성: ', newUser.get({ plain: true }));
-        const accessToken = createAccessToken({ email, nickname });
+        const accessToken = createAccessToken(newUser.dataValues);
         console.log('🤢 토큰 발급 완료 :', accessToken);
 
         // 👀 토큰을 응답 헤더에 심어야 하나?
@@ -98,7 +101,7 @@ module.exports = {
     //     .status(401)
     //     .json({ message: '로그인 되지 않은 상태입니다.', data: null });
     // }
-    res.status(205).json({ message: '로그아웃 성공', data: null });
+    res.status(200).json({ message: '로그아웃 성공', data: null });
   },
   // GET users/:uid
 
@@ -106,29 +109,45 @@ module.exports = {
   // 권한 있으면 p.title, m.total_message, u.email, u.nickname 반환
   // => 내가 이걸  'posts/:uid' postsController.read에서 처리해줬는데... 근데 얘는 messageList도 반환!
   // API 경로가 비효율적으로 설계됐구나...
-  read: (req, res) => {
+  read: async (req, res) => {
     // 헤더에서 토큰 찾아다가 디코딩한 유저 정보
+
+    const userId = req.params.uid;
     const loginUser = isAuthorized(req);
-    console.log('worked?');
 
-    const { id, email, nickname, postId } = loginUser;
-    Post.findOne({ where: { userId: id } }).then(thePost => {
-      const { title } = thePost;
+    if (!loginUser) {
+      return res
+        .status(404)
+        .json({ message: '해당 회원이 없습니다.', data: req.headers });
+    }
+    // userId  가지고 postId 값 구하기
+    const theUser = await User.findOne({ where: { id: userId } });
+    // console.log('🎃 theUser', theUser.dataValues);
 
-      Message.findAndCountAll({ where: { postId } }).then(theMessage => {
-        const { count } = theMessage;
+    // P.title, M.total_message, U.email, U.nickname
 
-        res.status(200).json({
-          message: 'ok',
-          data: {
-            title,
-            total_message: count,
-            email,
-            nickname,
-          },
+    Post.findOne({ where: { userId } })
+      .then(thePost => {
+        const { title } = thePost.dataValues;
+
+        Message.findAndCountAll({ where: { postId: 4 } }).then(theMessage => {
+          console.log('🔼 theMsg', theMessage);
+          const { count } = theMessage;
+
+          res.status(200).json({
+            message: '유저 정보 조회 성공',
+            userinfo: {
+              title,
+              total_message: count,
+              email: theUser.dataValues.email,
+              nickname: theUser.dataValues.nickname,
+            },
+          });
         });
+      })
+      .catch(e => {
+        return res.status(404).json({ message: e.message, data: null });
       });
-    });
   },
 
   // users/properties/update
@@ -143,23 +162,38 @@ module.exports = {
         .status(401)
         .json({ message: '로그인되지 않은 사용자입니다', data: null });
     }
-
     // id를 쓰면 아래 Post 조회할 때 못써서 email로 대체
-    const { id, email, postId } = decoded;
+    const { id, email } = decoded;
     // req.body에 nickname
     const theUser = await User.findOne({ where: { email } });
+
+    console.log('❤ BEFORE', theUser.dataValues);
+
+    // jane.set({
+    //   name: "Ada",
+    //   favoriteColor: "blue"
+    // });
+
     theUser.set({
       nickname: req.body.nickname,
-      email: req.body.email,
+      password: req.body.password,
     });
+
+    // theUser.dataValues.nickname = req.body.nickname;
+    // theUser.dataValues.password = req.body.password;
+    await theUser.save();
+    console.log('❤ AFTER', theUser.dataValues);
 
     // 👀 이제 보니까 title을 회원정보에서 변경해줘야 하는 거라면
     // 애초에 Users 테이블에 넣어주는 게 좋았겠어
-    const thePost = await Post.findOne({ where: { id: postId } });
-    thePost.set({
-      title: req.body.title,
-    });
-    res.status(204).json({ message: '회원 정보 수정 성공', data: { uid: id } });
+    const thePost = await Post.findOne({ where: { id: 4 } });
+
+    console.log('❤ BEFORE', thePost.dataValues);
+    thePost.dataValues.title = req.body.title;
+    await thePost.save();
+    console.log('❤ AFTER', thePost.dataValues);
+
+    res.status(201).json({ message: 'ok', data: { uid: id } });
   },
 
   // users/properties/destroy

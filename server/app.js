@@ -24,7 +24,7 @@ sequelize
 
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: true,
@@ -45,15 +45,17 @@ app.use('/users', usersRouter);
 app.use((req, res, next) => {
   const err = new Error(`${req.method} ${req.url} Router Not Found`);
   err.status = 404;
+  console.log('🚨 from 45 app.js', err);
   next(err);
 });
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: process.env.NODE_ENV === 'production' ? {} : err,
-  });
+  console.log('🚨 from 54 app.js', err),
+    res.json({
+      message: err.message,
+      error: process.env.NODE_ENV === 'production' ? {} : err,
+    });
 });
 
 const server = http.createServer(app);
