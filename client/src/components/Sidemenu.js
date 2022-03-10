@@ -8,7 +8,6 @@ export default function Sidemenu({
   setShowWithdrawl,
 }) {
   const { nickname, title, email } = userinfo;
-  console.log(userinfo);
   const history = useHistory();
 
   return (

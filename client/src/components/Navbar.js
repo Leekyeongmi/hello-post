@@ -5,6 +5,7 @@ export default function Navbar({
   setShowSidemenu,
   setShowNotification,
   setShowPdf,
+  userinfo,
 }) {
   // 현재 url 복사하는 코드
   const copyUrlRef = useRef(null);
@@ -25,7 +26,7 @@ export default function Navbar({
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className="flex">
               <h1 className="font-bold text-3xl text-white leading-tight">
-                {`롤링페이퍼 제목 : ${list.title}`}
+                {`롤링페이퍼 제목 : ${userinfo.title}`}
               </h1>
               <button
                 type="button"

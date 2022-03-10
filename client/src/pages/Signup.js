@@ -80,7 +80,7 @@ export default function Signup() {
       .then(respond => {
         if (respond.data.message === '회원가입성공!') {
           alert('가입이 성공적으로 완료되었습니다.');
-          history.push('/');
+          history.push('/login');
         } else {
           setShowNotification(true);
         }

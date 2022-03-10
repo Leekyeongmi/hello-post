@@ -211,6 +211,6 @@ module.exports = {
 
     const theUser = await User.findOne({ where: { id, email } });
     await theUser.destroy();
-    res.status(204).json({ message: '회원 탈퇴 성공', data: { uid: id } });
+    res.status(200).json({ message: '회원 탈퇴 성공', data: { uid: id } });
   },
 };

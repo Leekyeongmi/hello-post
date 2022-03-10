@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Signin from '../components/Signin';
 
-export default function Login({
-  isLogin,
-  handleResponseSuccess,
-  setUserId,
-  setTest,
-}) {
+export default function Login({ isLogin, handleResponseSuccess, setUserId }) {
   const [showModal, setShowModal] = useState(false);
   return (
     <div className="overflow-hidden h-screen bg-amber-50">
@@ -48,7 +43,6 @@ export default function Login({
           </button>
           {showModal ? (
             <Signin
-              setTest={setTest}
               isLogin={isLogin}
               setUserId={setUserId}
               handleResponseSuccess={handleResponseSuccess}

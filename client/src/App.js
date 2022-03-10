@@ -25,6 +25,8 @@ function App() {
     email: 'test@com',
     nickname: 'suri',
   });
+
+  // console.log(userinfo);
   const [accessToken, issueAccessToken] = useState(null);
 
   // [TEST] 루트경로로 접속할 때 서버의 GET '/' 요청 처리를 위해 잠시 추가했습니다!
@@ -100,6 +102,7 @@ function App() {
       })
       .then(res => {
         if (res.data.message === '회원 탈퇴 성공') {
+          console.log('성공?');
           setUserinfo({
             title: '',
             total_message: '',
@@ -129,7 +132,11 @@ function App() {
             <Signup isLogin={isLogin} />
           </Route>
           <Route exact path="/userinfo">
-            <Userinfo userinfo={userinfo} accessToken={accessToken} />
+            <Userinfo
+              userinfo={userinfo}
+              setUserinfo={setUserinfo}
+              accessToken={accessToken}
+            />
           </Route>
           <Route path="/posts">
             <Rollingpaper
