@@ -1,20 +1,70 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Notification from '../components/Notification';
 
 axios.defaults.withCredentials = true;
 
-export default function Userinfo({ userinfo, accessToken }) {
+export default function Userinfo({ userinfo, accessToken, setUserinfo }) {
   const history = useHistory();
+  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg2, setErrorMsg2] = useState('');
+  const [errorMsg3, setErrorMsg3] = useState('');
   const [userInfo, setUserInfo] = useState({
     password: '',
+    confirm: '',
     nickname: userinfo.nickname,
     title: userinfo.title,
   });
   const [showNotification, setShowNotification] = useState(false);
+
+  // 비밀번호 일치 확인
+  const passwordMatch = () => {
+    const { password, confirm } = userInfo;
+    return password === confirm;
+  };
+
+  // 비밀번호 보안 강화
+  const strongPassword = str => {
+    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+      str
+    );
+  };
+
+  const passwordHandler = () => {
+    if (!strongPassword(userInfo.password)) {
+      setErrorMsg2(
+        '최소 8자 이상, 알파벳과 숫자 및 특수문자는 하나 이상 포함하세요.'
+      );
+    }
+    if (strongPassword(userInfo.password)) {
+      setErrorMsg2('');
+    }
+
+    if (!passwordMatch()) {
+      setErrorMsg('비밀번호가 일치하지 않습니다.');
+    } else {
+      setErrorMsg('');
+    }
+  };
+
+  useEffect(() => {
+    passwordHandler();
+  });
+
   const handleUserinfo = () => {
-    const { nickname, password, title } = userInfo;
+    const { password, confirm, nickname, title } = userInfo;
+
+    if (!password || !confirm || !title) {
+      return setErrorMsg3('필수항목을 모두 입력해주세요.');
+    }
+
+    if (!passwordMatch() || !strongPassword(password)) {
+      return setErrorMsg3('사용자 정보를 올바르게 입력해주세요.');
+    }
+
+    setErrorMsg3('');
+
     axios
       .patch(
         `${process.env.REACT_APP_API_URL}/users/properties`,
@@ -32,7 +82,8 @@ export default function Userinfo({ userinfo, accessToken }) {
       )
       .then(respond => {
         if (respond.data.message === 'ok') {
-          setShowNotification(true);
+          alert('회원정보 수정이 완료되었습니다.');
+          setUserinfo({ ...userinfo, nickname, title });
           history.push('/');
         }
       })
@@ -59,15 +110,34 @@ export default function Userinfo({ userinfo, accessToken }) {
                 onChange={handleInputValue('nickname')}
               />
             </div>
-            <div className="mb-3 relative">
-              <label className="text-gray-700 mt-10">Password</label>
+            <div className="mb-1 relative">
+              <label className="text-gray-700 mt-10">
+                Password
+                <span className="text-red-500 required-dot"> *</span>
+              </label>
               <input
                 type="password"
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                name="password"
                 placeholder="password"
                 onChange={handleInputValue('password')}
               />
             </div>
+            <span className="text-red-500 text-sm">{errorMsg2}</span>
+            <div className="mb-1 relative">
+              <label className="text-gray-700 mt-10">
+                Confirm Password
+                <span className="text-red-500 required-dot"> *</span>
+              </label>
+              <input
+                type="password"
+                className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                name="password"
+                placeholder="password"
+                onChange={handleInputValue('confirm')}
+              />
+            </div>
+            <span className="text-red-500 text-sm">{errorMsg}</span>
 
             <div className="mb-3 relative ">
               <label className="text-gray-700">Rollingpaper&apos;s title</label>
@@ -79,6 +149,7 @@ export default function Userinfo({ userinfo, accessToken }) {
                 onChange={handleInputValue('title')}
               />
             </div>
+            <span className="text-gray-800 text-base">{errorMsg3}</span>
             <div className="flex items-center justify-between gap-4 w-full mt-5">
               <button
                 onClick={handleUserinfo}

@@ -8,7 +8,6 @@ module.exports = {
     const { email, password, nickname } = req.body;
 
     if (!email || !password || !nickname) {
-      console.log('🤢req.body', req.body);
       return res
         .status(400)
         .json({ message: '회원정보를 요청객체 바디에서 찾을 수 없습니다!' });
@@ -61,7 +60,7 @@ module.exports = {
 
     if (!theUser) {
       return res
-        .status(404)
+        .status(200)
         .json({ message: '가입된 유저가 없습니다.', data: null });
     }
 
@@ -83,13 +82,12 @@ module.exports = {
 
   // 로그아웃
   signout: (req, res) => {
-    res.status(205).json({ message: '로그아웃 성공', data: null });
+    res.status(200).json({ message: '로그아웃 성공', data: null });
   },
+  
   // GET users/:uid
-
   read: async (req, res) => {
     const userId = req.params.uid;
-
     const loginUser = isAuthorized(req);
 
     if (!loginUser) {
@@ -108,6 +106,7 @@ module.exports = {
             .json({ message: '롤링페이퍼가 없는 회원입니다😥', data: null });
         }
         const { title } = thePost.dataValues;
+      
         // 현재 Users 테이블에 postId 추가가 안되는 문제로 하드코딩함
         Message.findAndCountAll({ where: { postId: 4 } }).then(theMessage => {
           const { count } = theMessage;
@@ -157,6 +156,7 @@ module.exports = {
     thePost.set({
       title: req.body.title,
     });
+    
     await thePost.save();
 
     res.status(201).json({ message: 'ok', data: { uid: id } });
@@ -177,6 +177,6 @@ module.exports = {
 
     const theUser = await User.findOne({ where: { id, email } });
     await theUser.destroy();
-    res.status(204).json({ message: '회원 탈퇴 성공', data: { uid: id } });
+    res.status(200).json({ message: '회원 탈퇴 성공', data: { uid: id } });
   },
 };

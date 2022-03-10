@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 export default function Signin({
   setUserId,
   handleResponseSuccess,
   setShowModal,
 }) {
+  const history = useHistory();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -36,19 +38,19 @@ export default function Signin({
         {
           headers: {
             'Content-Type': 'application/json',
-            withCredentials: true,
           },
         }
       )
-      .then(res => {
-        if (res.data.message === 'ok') {
-          setUserId(res.data.data.uid);
-          handleResponseSuccess(res.data.accessToken);
-        } else {
-          setLoginInfo({
-            email: '',
-            password: '',
-          });
+      .then(respond => {
+        if (respond.data.message === 'ok') {
+          handleResponseSuccess(respond.data.accessToken);
+          setUserId(respond.data.data.uid);
+          setShowModal(false);
+          console.log('hi?');
+          history.push('/');
+        } else if (respond.data.message === '가입된 유저가 없습니다.') {
+          setShowModal(false);
+          alert('아이디와 비밀번호를 잘못 입력했습니다.');
         }
       })
       .catch(err => {

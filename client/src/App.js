@@ -16,30 +16,31 @@ import './app.css';
 axios.defaults.withCredentials = true;
 
 function App() {
+  console.log('rendered?');
   const [isLogin, setIsLogin] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userinfo, setUserinfo] = useState({
-    title: 'Lets Rollingpaper!',
-    total_message: 3,
-    email: 'test@hello.com',
+    title: '롤링페이퍼',
+    total_message: 0,
+    email: 'test@com',
     nickname: 'suri',
   });
+
+  // console.log(userinfo);
   const [accessToken, issueAccessToken] = useState(null);
-  const history = useHistory();
 
   // [TEST] 루트경로로 접속할 때 서버의 GET '/' 요청 처리를 위해 잠시 추가했습니다!
-  axios
-    .get(`process.env.REACT_APP_API_URL`)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  // [TEST]
+  // axios
+  //   .get(`${process.env.REACT_APP_API_URL}`)
+  //   .then(res => {
+  //     console.log(res);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
+  // // [TEST]
 
   const isAuthenticated = () => {
-    setIsLogin(true);
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
         headers: {
@@ -47,25 +48,29 @@ function App() {
         },
       })
       .then(respond => {
-        console.log(respond.data);
         if (respond.data.message === '유저 정보 조회 성공') {
-          const { title, total_message, email, nickname } =
+          const { title, email, total_message, nickname } =
             respond.data.userinfo;
           setUserinfo({
             title,
-            total_message,
             email,
+            total_message,
             nickname,
           });
         }
+        console.log('worked?');
       })
       .catch(error => console.log(error));
   };
 
+  useEffect(() => {
+    isAuthenticated();
+  }, [userId]);
+
   const handleResponseSuccess = accessToken => {
+    setIsLogin(true);
     isAuthenticated();
     issueAccessToken(accessToken);
-    history.push('/');
   };
 
   const handleLogout = () => {
@@ -88,29 +93,29 @@ function App() {
   };
 
   const handleWithdrawl = () => {
-    console.log('clicked?');
     axios
       .delete(`${process.env.REACT_APP_API_URL}/users/properties`, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(res => {
-        axios.defaults.headers.common[
-          'authorization'
-        ] = `Bearer ${accessToken}`;
-        setUserinfo({
-          title: '',
-          total_message: '',
-          email: '',
-          nickname: '',
-        });
-        setIsLogin(false);
-        alert('정상적으로 처리되었습니다.');
-      });
+        if (res.data.message === '회원 탈퇴 성공') {
+          console.log('성공?');
+          setUserinfo({
+            title: '',
+            total_message: '',
+            email: '',
+            nickname: '',
+          });
+          setIsLogin(false);
+          // issueAccessToken(null);
+          alert('정상적으로 처리되었습니다.');
+        }
+      })
+      .catch(error => console.log(error));
   };
-
-  // useEffect(() => {
-  //   isAuthenticated();
-  // }, []);
 
   return (
     <div>
@@ -127,7 +132,11 @@ function App() {
             <Signup isLogin={isLogin} />
           </Route>
           <Route exact path="/userinfo">
-            <Userinfo userinfo={userinfo} accessToken={accessToken} />
+            <Userinfo
+              userinfo={userinfo}
+              setUserinfo={setUserinfo}
+              accessToken={accessToken}
+            />
           </Route>
           <Route path="/posts">
             <Rollingpaper
