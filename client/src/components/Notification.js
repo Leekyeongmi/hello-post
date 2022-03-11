@@ -33,12 +33,6 @@ export default function Notification({ content, setShowNotification }) {
                 >
                   확인
                 </button>
-                {/* <button
-                  type="button"
-                  className="py-2 px-4  bg-white hover:bg-gray-100 focus:ring-blue-500 focus:ring-offset-blue-200 text-blue-500 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  cancel
-                </button> */}
               </div>
             </div>
           </div>

@@ -7,17 +7,13 @@ export default function Navbar({
   setShowPdf,
   userinfo,
 }) {
-  // 현재 url 복사하는 코드
   const copyUrlRef = useRef(null);
-
   const copyUrlHandler = () => {
     setShowNotification(true);
     copyUrlRef.current.select();
     document.execCommand('copy');
     e.target.focus();
   };
-
-  // console.log(list);
 
   return (
     <>

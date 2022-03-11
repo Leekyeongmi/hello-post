@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default function Message({ message, index, list }) {
   const parsedDate = new Date(message.createdAt).toLocaleDateString('ko-kr');

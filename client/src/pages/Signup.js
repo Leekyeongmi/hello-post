@@ -20,13 +20,11 @@ export default function Signup() {
     setUserInfo({ ...userInfo, [key]: e.target.value });
   };
 
-  // 비밀번호 일치 확인
   const passwordMatch = () => {
     const { password, confirm } = userInfo;
     return password === confirm;
   };
 
-  // 비밀번호 보안 강화
   const strongPassword = str => {
     return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
       str

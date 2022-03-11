@@ -1,11 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  Switch,
-  Route,
-  useHistory,
-  Redirect,
-  BrowserRouter,
-} from 'react-router-dom';
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import Rollingpaper from './pages/Rollingpaper';
 import Signup from './pages/Signup';
@@ -16,7 +10,6 @@ import './app.css';
 axios.defaults.withCredentials = true;
 
 function App() {
-  console.log('rendered?');
   const [isLogin, setIsLogin] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userinfo, setUserinfo] = useState({
@@ -25,8 +18,6 @@ function App() {
     email: 'test@com',
     nickname: 'suri',
   });
-
-  // console.log(userinfo);
   const [accessToken, issueAccessToken] = useState(null);
 
   // [TEST] 루트경로로 접속할 때 서버의 GET '/' 요청 처리를 위해 잠시 추가했습니다!
@@ -41,6 +32,9 @@ function App() {
   // // [TEST]
 
   const isAuthenticated = () => {
+    if (userId === null) {
+      return;
+    }
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
         headers: {
@@ -58,7 +52,6 @@ function App() {
             nickname,
           });
         }
-        console.log('worked?');
       })
       .catch(error => console.log(error));
   };
@@ -87,6 +80,7 @@ function App() {
             nickname: '',
           });
           setIsLogin(false);
+          setUserId(null);
         }
       })
       .catch(error => console.log(error));
@@ -102,7 +96,6 @@ function App() {
       })
       .then(res => {
         if (res.data.message === '회원 탈퇴 성공') {
-          console.log('성공?');
           setUserinfo({
             title: '',
             total_message: '',
@@ -110,7 +103,7 @@ function App() {
             nickname: '',
           });
           setIsLogin(false);
-          // issueAccessToken(null);
+          setUserId(null);
           alert('정상적으로 처리되었습니다.');
         }
       })
