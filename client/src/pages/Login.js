@@ -31,9 +31,9 @@ export default function Login({ isLogin, handleResponseSuccess, setUserId }) {
             <br />
           </h1>
           <p className="text-lg uppercase text-gray-900 mt-5">
-            친구들
+            사랑하는 사람에게 전하는
             <br />
-            마음을 전하는 가장 쉽고 간단한 롤링페이퍼
+            가나다라 마바사 글자 테스트
           </p>
           <button
             className="block bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-3 px-4 rounded-lg text-lg text-white font-bold uppercase mt-10"
