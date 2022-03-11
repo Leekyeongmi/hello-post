@@ -27,13 +27,13 @@ export default function Login({ isLogin, handleResponseSuccess, setUserId }) {
             Hello-Post
           </span>
           <h1 className="font-bold text-6xl sm:text-7xl text-gray-900 leading-tight mt-4">
-            Lets Rollingpaper!
+            Let&apos;s Rollingpaper!
             <br />
           </h1>
           <p className="text-lg uppercase text-gray-900 mt-5">
-            사랑하는 사람을 위한,
+            친구들
             <br />
-            가나다라 마바사 글자 테스트!
+            마음을 전하는 가장 쉽고 간단한 롤링페이퍼
           </p>
           <button
             className="block bg-blue-700 transition ease-in duration-150 hover:bg-blue-800 py-3 px-4 rounded-lg text-lg text-white font-bold uppercase mt-10"

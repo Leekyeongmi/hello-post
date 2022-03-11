@@ -8,9 +8,7 @@ export default function WriteMessage({ setShowWrite, location, readHandler }) {
     message: '',
     writer: '',
   });
-
   // const [showNotification, setShowNotification] = useState(false);
-
   const handleInputValue = key => e => {
     setMsg({ ...msg, [key]: e.target.value });
   };
@@ -33,6 +31,7 @@ export default function WriteMessage({ setShowWrite, location, readHandler }) {
       )
       .then(res => {
         if (res.data.message === '메시지 작성 완료') {
+          // setShowNotification(true);
           alert('메시지 작성이 완료되었습니다.');
           setShowWrite(false);
           readHandler();
@@ -77,7 +76,7 @@ export default function WriteMessage({ setShowWrite, location, readHandler }) {
                 </label>
                 <textarea
                   className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Love what you do!"
+                  placeholder="Hello, there!"
                   rows="5"
                   cols="30"
                   onChange={handleInputValue('message')}
