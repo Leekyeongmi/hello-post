@@ -54,7 +54,7 @@ export default function Rollingpaper({
   };
 
   const readHandler = () => {
-    // setLoadingIndicator(true);
+    setLoadingIndicator(true);
     axios
       .get(`${process.env.REACT_APP_API_URL}${location.pathname}`, {
         headers: {
